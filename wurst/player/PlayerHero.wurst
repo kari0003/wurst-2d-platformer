@@ -1,0 +1,49 @@
+package PlayerHero
+import Entity
+import Textures
+import DummyRecycler
+import KeyUtils
+import Level
+
+
+public class PlayerHero extends Entity
+    let actor = createImage(Textures.icon_file, ZERO2, 64, 64, ImageLayer.L1)..show()
+    let dummyUnit = DummyRecycler.get(ZERO2, angle(0))
+
+    var acceleration = ZERO2
+    var onGround = false
+    Tile currentTile = null
+
+    construct(player owner)
+        super(owner, ZERO2 + vec2(256, 256))
+        sleeps = false
+
+    function jump()
+        if onGround
+            vel.y = 10
+            onGround = false
+
+
+    override function update()
+        super.update()
+        currentTile = currentLevel.getTile((pos.x.round() + (TILE_SIZE div 2))  div TILE_SIZE, (pos.y.round() - (TILE_SIZE div 2)) div TILE_SIZE)
+        let leftBottomCorner = currentLevel.getTile((pos.x.round())  div TILE_SIZE, (pos.y.round() - 64) div TILE_SIZE)
+        let rightBottomCorner = currentLevel.getTile((pos.x.round() + 64)  div TILE_SIZE, (pos.y.round() - 64) div TILE_SIZE)
+        dummyUnit.setXY(pos)
+        actor.setPos(pos)
+
+        let downKeys = owner.getDownKeys()
+        if downKeys.left and not downKeys.right
+            acceleration = LEFT * 10
+        else if downKeys.right and not downKeys.left
+            acceleration = RIGHT * 10
+        else
+            acceleration = ZERO2
+
+        vel.x = vel.x.lerp(acceleration.x, 0.5)
+        if not onGround
+            if leftBottomCorner.isPathable() and rightBottomCorner.isPathable()
+                vel.y += gravity
+            else
+                vel.y = 0
+                onGround = true

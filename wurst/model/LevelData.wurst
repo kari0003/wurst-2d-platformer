@@ -1,0 +1,55 @@
+package LevelData
+import public ObjectData
+import HashMap
+import HashList
+
+/*
+    The workflow idea is as follows:
+        * Create new LevelData
+        * Populate with TileData tiles using setter
+            -> The tiles should be assigned pathability and texture at creation
+        * Add all dynamic objects using #addObject
+            -> The objects themselves must be loaded before
+        * Finished LevelData is passed to the Render and Collision systems
+*/
+
+/** The pathing status of a tile */
+public enum Pathing
+    FREE
+    BLOCKED
+    WATER // TODO
+
+/** Row and column index of a tile in the 2d grid */
+public tuple tilePos(int x, int y)
+
+/** Model data for one tile of the tilemap */
+public class TileData
+    var tilePos = tilePos(0, 0)
+    var pathing = Pathing.FREE
+    var texturePath = ""
+
+    construct()
+
+/** Model data for one level */
+public class LevelData
+    /** Stores the tile grid */
+    private let tileMap = new HashMap<int, TileData>
+    /** Stores level entities which aren't contrained to grid */
+    private let objectList = new HashList<ObjectData>
+    private var width = 32
+    private var height = 32
+
+    construct()
+
+    construct(int width, int height)
+        this.width = width
+        this.height = height
+
+    function setTile(int x, int y, TileData tile)
+        tileMap.put(x + width * y, tile)
+
+    function getTile(int x, int y) returns TileData
+        return tileMap.get(x + width * y)
+
+    function addObject(ObjectData object)
+        objectList.add(object)

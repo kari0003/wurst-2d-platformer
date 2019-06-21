@@ -1,0 +1,13 @@
+package RenderModule
+import LevelData
+
+// Clean this workplce
+public interface LevelRenderer
+    vec2 tileSize // interface?
+
+    function setLevelData(LevelData data)
+
+    function draw()
+
+public interface RenderObject
+    abstract function render()

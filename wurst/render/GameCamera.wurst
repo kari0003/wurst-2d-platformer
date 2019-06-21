@@ -1,0 +1,22 @@
+package GameCamera
+import Entity
+
+/**
+    Controls the camera for one player.
+    Use #setTarget to apply the camera to a unit (prevents arrow keys from moving camera).
+    Call #update each tick to apply the correct distance and angle.
+    When a player died he may spectate another player by using #setTarget
+*/
+public class GameCamera extends Entity
+    private unit target
+
+    construct(player owner)
+        this.owner = owner
+
+    function setTarget(unit target)
+        this.target = target
+        owner.setCameraTargetControllerNoZ(target, ZERO2, true)
+
+    override function update()
+        owner.cameraSetupApply(false, gg_cam_Camera_001, 0.)
+

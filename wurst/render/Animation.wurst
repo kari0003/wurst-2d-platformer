@@ -1,0 +1,44 @@
+package Animation
+import LinkedList
+import RenderModule
+import ImageHandler
+
+public class Animation
+    LinkedList<string> frames
+    var startFrame = 0
+    var endFrame = 0
+    var currentFrame = 0
+
+    construct (LinkedList<string> frames)
+        this.frames = frames.copy()
+        endFrame = frames.size()
+
+    function getCurrentFrame() returns string
+        return frames.get(currentFrame)
+
+    function tick()
+        currentFrame ++
+        if currentFrame > endFrame
+            currentFrame = startFrame
+
+public class AnimatedImage implements RenderObject
+    Animation animation
+    ImageHandler img
+
+    construct(Animation a, vec2 size, vec2 pos, ImageLayer layer)
+        animation = a
+        img = new ImageHandler(a.getCurrentFrame(), size, pos, layer)
+
+    override function render()
+        animation.tick()
+        img.setPath(animation.getCurrentFrame())
+        img.render()
+
+    function setPos(vec2 pos)
+        img.pos = pos
+
+    function setSize(vec2 size)
+        img.size = size
+
+    ondestroy
+        destroy img

@@ -1,0 +1,34 @@
+package Level
+import LevelData
+import RenderModule
+
+public Level currentLevel = null
+public constant TILE_SIZE = 128
+
+
+public class Tile
+    var pos = ZERO2
+    var pathable = true
+    image img // rn level renders itself, so we need to decouple this
+
+    construct(string texture, boolean pathable)
+        img = createImage(texture, ZERO2, TILE_SIZE.toReal(), TILE_SIZE.toReal(), ImageLayer.L1)..show()
+        this.pathable = pathable
+
+    function setPos(vec2 pos)
+        img.setPos(pos)
+
+    function isPathable() returns boolean
+        return pathable
+
+public class Level
+    private LevelData levelData
+    private LevelRenderer renderer
+
+    construct(LevelData levelData, LevelRenderer renderer)
+        this.levelData = levelData
+        this.renderer = renderer
+        renderer.setLevelData(levelData)
+
+    function render()
+        renderer.draw()

@@ -1,0 +1,34 @@
+package PlayerData
+import Players
+import ClosureTimers
+import PlayerHero
+import KeyUtils
+import GameCamera
+
+PlayerData array pData
+
+public function player.getData() returns PlayerData
+    return pData[this.getId()]
+
+class PlayerData
+    GameCamera camera
+    PlayerHero hero
+
+    construct(player p)
+        camera = new GameCamera(p)
+
+    function setHero(PlayerHero hero)
+        this.hero = hero
+
+init
+    nullTimer() ->
+        ALL_PLAYERS.forEach() p ->
+            pData[p.getId()] = new PlayerData(p)
+
+    addKeyListener() () ->
+        let pl = GetTriggerPlayer()
+        let id = GetTriggerEventId()
+
+        if id == EVENT_PLAYER_ARROW_UP_DOWN
+            pl.getData().hero.jump()
+

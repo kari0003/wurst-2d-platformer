@@ -1,0 +1,11 @@
+package ObjectData
+
+/**
+    An object is any entity inside the level that isn't constrained to a fixed tile,
+    i.e. it has a real position and can potetionally move.
+    Examples would be the player character or a box you can push around.
+*/
+public class ObjectData
+    var pos = ZERO2
+    var texturePath = ""
+

@@ -1,0 +1,5 @@
+---
+projectName: Wurst 2d Platformer
+dependencies:
+- https://github.com/wurstscript/wurstStdlib2
+- https://github.com/frotty/frentity

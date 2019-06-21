@@ -1,0 +1,8 @@
+package Hello
+import ClosureTimers
+import EntityManagement
+
+init
+	doAfter(.1) () ->
+		hideOriginFrames(true)
+		startEntityLoop()

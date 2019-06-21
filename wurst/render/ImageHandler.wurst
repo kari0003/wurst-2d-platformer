@@ -1,0 +1,39 @@
+package ImageHandler
+import RenderModule
+
+/*
+    ImageHandler handles the rendering of an image
+    Image should have a transparent border, the content should be aligned to the middle
+    First iteration: Always redraw the image on render
+*/
+
+public class ImageHandler implements RenderObject
+    string path
+    vec2 size
+    vec2 margin
+    vec2 pos
+    ImageLayer layer
+
+    private image img
+
+    construct (string path, vec2 size, vec2 pos, ImageLayer layer)
+        this.path = path
+        this.size = size
+        this.margin = vec2(0, 0)
+        this.pos = pos
+        this.layer = layer
+
+        drawImage()
+
+    function drawImage()
+        img = createImage(path, pos - margin, size.x + 2 * margin.x, size.y + 2 * margin.y, layer)..show()
+
+    override function render()
+        img.remove()
+        drawImage()
+
+    function setPath(string path)
+        this.path = path
+
+    ondestroy
+        img.remove()
