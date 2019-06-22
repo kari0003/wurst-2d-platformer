@@ -3,8 +3,6 @@ import Entity
 import Textures
 import DummyRecycler
 import KeyUtils
-import Level
-
 
 public class PlayerHero extends Entity
     let actor = createImage(Textures.icon_file, ZERO2, 64, 64, ImageLayer.L1)..show()

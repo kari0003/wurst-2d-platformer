@@ -18,7 +18,7 @@ public function int.toTileData() returns TileData
         case 0
             return new TileData()
         case 1
-            return new TileData(Pathing.BLOCKED, Textures.icon_Map_Blizzard)
+            return new TileData(Pathing.BLOCKED, Textures.icon_folder)
     return null
 
 /** Input Wrapper */

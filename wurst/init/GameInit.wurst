@@ -2,7 +2,10 @@ package GameInit
 import ClosureTimers
 import SimpleLevelLoader
 import Level_01
+import EntityManagement
 
 init
-    doAfter(0.1) () ->
+    doAfter(.1) () ->
+        hideOriginFrames(true)
+        startEntityLoop()
         let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)

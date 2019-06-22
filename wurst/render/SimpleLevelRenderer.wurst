@@ -23,8 +23,8 @@ public class SimpleLevelRenderer implements LevelRenderer
 
         let tileSize = data.getTileSize()
         // Read all tiles as permanent render objects
-        for i = 0 to data.getWidth()
-            for j = 0 to data.getHeight()
+        for i = 0 to data.getWidth() - 1
+            for j = 0 to data.getHeight() - 1
                 let tile = data.getTile(i, j)
                 if tile.texturePath.isNotBlank()
                     renderObjects.add(new ImageHandler(tile.texturePath, vec2(tileSize, tileSize), vec2(tileSize * i, tileSize * j), ImageLayer.L1))
