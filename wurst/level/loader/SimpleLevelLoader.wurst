@@ -5,6 +5,14 @@ import LevelData
 import Textures
 import SimpleLevelRenderer
 
+/*
+    Loads a level from a 'SimpleLevelSaveData' input.
+    The input contains a list of tiles, the width, height and the starting tile.
+    See Level_01.wurst for a usage example.
+    Future level loaders could load from programmatically serialized save data.
+*/
+
+/** Converts a tile id into a TileData object */
 public function int.toTileData() returns TileData
     switch this
         case 0
@@ -13,6 +21,7 @@ public function int.toTileData() returns TileData
             return new TileData(Pathing.BLOCKED, Textures.icon_Map_Blizzard)
     return null
 
+/** Input Wrapper */
 public class SimpleLevelSaveData
     LinkedList<int> tileList
     int width
@@ -25,11 +34,13 @@ public class SimpleLevelSaveData
 
 public class SimpleLevelLoader
 
+    /** Loads the save data and returns a Level which is ready to start */
     static function load(SimpleLevelSaveData levelSaveData) returns Level
         let data = new LevelData(levelSaveData.width, levelSaveData.height)
         var x = 0
         var y = levelSaveData.height - 1
 
+        // Since the list starts at the top, we need to inversly read the input
         for tileId from levelSaveData.tileList.staticItr()
             data.setTile(x, y, tileId.toTileData())
             x++
@@ -37,7 +48,7 @@ public class SimpleLevelLoader
                 x = 0
                 y--
 
-
+        // Different levels could have different renderers
         let renderer = new SimpleLevelRenderer()
         let level = new Level(data, renderer)
         return level

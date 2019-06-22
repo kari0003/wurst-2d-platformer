@@ -4,6 +4,12 @@ import LinkedList
 import LevelData
 import ImageHandler
 
+/*
+    This renderer converts all tiles to ImageHandlers
+    and all Objects to some dynamic ImageHandler that*'s still to be made? :D
+*/
+
+/** A simple level renderer to get us off the ground! */
 public class SimpleLevelRenderer implements LevelRenderer
     LevelData data
     let renderObjects = new LinkedList<RenderObject>
@@ -26,3 +32,5 @@ public class SimpleLevelRenderer implements LevelRenderer
 
 
     override function draw()
+        for renderObject from renderObjects.staticItr()
+            renderObject.render()
