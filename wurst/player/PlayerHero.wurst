@@ -12,7 +12,6 @@ public class PlayerHero extends Entity
 
     var acceleration = ZERO2
     var onGround = false
-    Tile currentTile = null
 
     construct(player owner)
         super(owner, ZERO2 + vec2(256, 256))

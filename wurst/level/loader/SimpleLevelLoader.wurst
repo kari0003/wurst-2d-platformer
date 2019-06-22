@@ -25,5 +25,5 @@ public class SimpleLevelSaveData
 public class SimpleLevelLoader
 
     function load(SimpleLevelSaveData levelSaveData) returns Level
-
+        // TODO load map
         return null

@@ -43,11 +43,16 @@ public class LevelData
     private var width = 32
     private var height = 32
 
+    private var startingTile = tilePos(1, 4)
+
     construct()
 
     construct(int width, int height)
         this.width = width
         this.height = height
+
+    function setStartingTile(int x, int y)
+        this.startingTile = tilePos(x, y)
 
     function setTile(int x, int y, TileData tile)
         tileMap.put(x + width * y, tile)
