@@ -27,7 +27,7 @@ public class SimpleLevelRenderer implements LevelRenderer
             for j = 0 to data.getHeight()
                 let tile = data.getTile(i, j)
                 if tile.texturePath.isNotBlank()
-                    new ImageHandler(tile.texturePath, vec2(tileSize, tileSize), vec2(tileSize * i, tileSize * j), ImageLayer.L1)
+                    renderObjects.add(new ImageHandler(tile.texturePath, vec2(tileSize, tileSize), vec2(tileSize * i, tileSize * j), ImageLayer.L1))
 
 
 
