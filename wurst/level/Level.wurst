@@ -3,7 +3,6 @@ import LevelData
 import RenderModule
 
 public Level currentLevel = null
-public constant TILE_SIZE = 128
 
 public class Level
     private LevelData levelData
@@ -20,3 +19,6 @@ public class Level
     function start()
         // TODO
         // * Create hero for each player at level start
+
+    function getData() returns LevelData
+        return levelData

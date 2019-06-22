@@ -3,6 +3,7 @@ import LinkedList
 import Level
 import LevelData
 import Textures
+import SimpleLevelRenderer
 
 public function int.toTileData() returns TileData
     switch this
@@ -24,6 +25,21 @@ public class SimpleLevelSaveData
 
 public class SimpleLevelLoader
 
-    function load(SimpleLevelSaveData levelSaveData) returns Level
-        // TODO load map
-        return null
+    static function load(SimpleLevelSaveData levelSaveData) returns Level
+        let data = new LevelData(levelSaveData.width, levelSaveData.height)
+        var x = 0
+        var y = levelSaveData.height - 1
+
+        for tileId from levelSaveData.tileList.staticItr()
+            data.setTile(x, y, tileId.toTileData())
+            x++
+            if x == levelSaveData.width
+                x = 0
+                y--
+
+
+        let renderer = new SimpleLevelRenderer()
+        let level = new Level(data, renderer)
+        return level
+
+

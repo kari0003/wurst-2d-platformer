@@ -1,0 +1,28 @@
+package SimpleLevelRenderer
+import RenderModule
+import LinkedList
+import LevelData
+import ImageHandler
+
+public class SimpleLevelRenderer implements LevelRenderer
+    LevelData data
+    let renderObjects = new LinkedList<RenderObject>
+
+    override function setLevelData(LevelData data)
+        this.data = data
+
+        // Clear existing render objects
+        renderObjects.forEach(obj -> destroy obj)
+        renderObjects.clear()
+
+        let tileSize = data.getTileSize()
+        // Read all tiles as permanent render objects
+        for i = 0 to data.getWidth()
+            for j = 0 to data.getHeight()
+                let tile = data.getTile(i, j)
+                if tile.texturePath.isNotBlank()
+                    new ImageHandler(tile.texturePath, vec2(tileSize, tileSize), vec2(tileSize * i, tileSize * j), ImageLayer.L1)
+
+
+
+    override function draw()

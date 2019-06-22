@@ -1,9 +1,7 @@
 package RenderModule
 import LevelData
 
-// Clean this workplce
 public interface LevelRenderer
-    vec2 tileSize // interface?
 
     function setLevelData(LevelData data)
 
@@ -11,3 +9,4 @@ public interface LevelRenderer
 
 public interface RenderObject
     abstract function render()
+

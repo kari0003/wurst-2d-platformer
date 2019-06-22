@@ -40,10 +40,14 @@ public class LevelData
     private let tileMap = new HashMap<int, TileData>
     /** Stores level entities which aren't contrained to grid */
     private let objectList = new HashList<ObjectData>
+    /** How many horizontal tiles */
     private var width = 32
+    /** How many vertical tiles */
     private var height = 32
-
+    /** Tile where players start */
     private var startingTile = tilePos(1, 4)
+    /** Size of an individual tile */
+    private var tileSize = 128.
 
     construct()
 
@@ -59,6 +63,15 @@ public class LevelData
 
     function getTile(int x, int y) returns TileData
         return tileMap.get(x + width * y)
+
+    function getWidth() returns int
+        return width
+
+    function getHeight() returns int
+        return height
+
+    function getTileSize() returns real
+        return tileSize
 
     function addObject(ObjectData object)
         objectList.add(object)

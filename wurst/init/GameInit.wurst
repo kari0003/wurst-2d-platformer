@@ -1,0 +1,8 @@
+package GameInit
+import ClosureTimers
+import SimpleLevelLoader
+import Level_01
+
+init
+    doAfter(0.1) () ->
+        let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
