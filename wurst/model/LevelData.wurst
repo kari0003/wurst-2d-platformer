@@ -30,6 +30,10 @@ public class TileData
 
     construct()
 
+    construct(Pathing pathing, string texture)
+        this.pathing = pathing
+        this.texturePath = texture
+
 /** Model data for one level */
 public class LevelData
     /** Stores the tile grid */
