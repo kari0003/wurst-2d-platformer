@@ -26,9 +26,6 @@ public class PlayerHero extends Entity
 
     override function update()
         super.update()
-        currentTile = currentLevel.getTile((pos.x.round() + (TILE_SIZE div 2))  div TILE_SIZE, (pos.y.round() - (TILE_SIZE div 2)) div TILE_SIZE)
-        let leftBottomCorner = currentLevel.getTile((pos.x.round())  div TILE_SIZE, (pos.y.round() - 64) div TILE_SIZE)
-        let rightBottomCorner = currentLevel.getTile((pos.x.round() + 64)  div TILE_SIZE, (pos.y.round() - 64) div TILE_SIZE)
         dummyUnit.setXY(pos)
         actor.setPos(pos)
 
@@ -41,9 +38,3 @@ public class PlayerHero extends Entity
             acceleration = ZERO2
 
         vel.x = vel.x.lerp(acceleration.x, 0.5)
-        if not onGround
-            if leftBottomCorner.isPathable() and rightBottomCorner.isPathable()
-                vel.y += gravity
-            else
-                vel.y = 0
-                onGround = true
