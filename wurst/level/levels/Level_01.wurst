@@ -25,7 +25,11 @@ let TILE_MAP = [
 ]
 
 let tileList = new LinkedList<int>
+
 init
+    initMap()
+
+@compiletime function initMap()
     for i = 0 to TILE_MAP.length - 1
         tileList.add(TILE_MAP[i])
 
