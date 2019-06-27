@@ -7,5 +7,6 @@ package ObjectData
 */
 public class ObjectData
     var pos = ZERO2
+    var size = ZERO2
     var texturePath = ""
 

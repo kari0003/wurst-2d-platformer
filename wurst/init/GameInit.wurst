@@ -6,6 +6,7 @@ import EntityManagement
 
 init
     doAfter(.1) () ->
-        hideOriginFrames(true)
+        // hideOriginFrames(true)
         startEntityLoop()
         let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
+        level01.start()

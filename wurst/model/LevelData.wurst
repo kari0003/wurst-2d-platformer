@@ -76,6 +76,9 @@ public class LevelData
     function addObject(ObjectData object)
         objectList.add(object)
 
+    function getObjects() returns HashList<ObjectData>
+        return objectList
+
 function TileData.assertEquals(TileData other)
     (this castTo int).assertEquals(other castTo int)
 

@@ -1,6 +1,10 @@
 package Level
 import LevelData
 import RenderModule
+import Players
+import PlayerData
+import PlayerHero
+import ClosureTimers
 
 public Level currentLevel = null
 
@@ -17,8 +21,12 @@ public class Level
         renderer.draw()
 
     function start()
-        // TODO
-        // * Create hero for each player at level start
+        ALL_PLAYERS.forEach() p ->
+            let hero = new PlayerHero(p)
+            p.getData().setHero(hero)
+            levelData.addObject(hero.objectData)
+
+        doPeriodically(ANIMATION_PERIOD, (cb) -> render())
 
     function getData() returns LevelData
         return levelData

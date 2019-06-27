@@ -4,6 +4,7 @@ import Level
 import LevelData
 import Textures
 import SimpleLevelRenderer
+import CrudeLevelRenderer
 
 /*
     Loads a level from a 'SimpleLevelSaveData' input.
@@ -49,7 +50,7 @@ public class SimpleLevelLoader
                 y--
 
         // Different levels could have different renderers
-        let renderer = new SimpleLevelRenderer()
+        let renderer = new CrudeLevelRenderer()
         let level = new Level(data, renderer)
         return level
 

@@ -1,11 +1,12 @@
 package PlayerHero
 import Entity
-import Textures
 import DummyRecycler
 import KeyUtils
+import ObjectData
+import Textures
 
 public class PlayerHero extends Entity
-    let actor = createImage(Textures.icon_file, ZERO2, 64, 64, ImageLayer.L1)..show()
+    let objectData = new ObjectData()
     let dummyUnit = DummyRecycler.get(ZERO2, angle(0))
 
     var acceleration = ZERO2
@@ -14,6 +15,8 @@ public class PlayerHero extends Entity
     construct(player owner)
         super(owner, ZERO2 + vec2(256, 256))
         sleeps = false
+        objectData.texturePath = Textures.icon_file
+        objectData.size = vec2(64, 64)
 
     function jump()
         if onGround
@@ -24,8 +27,7 @@ public class PlayerHero extends Entity
     override function update()
         super.update()
         dummyUnit.setXY(pos)
-        actor.setPos(pos)
-
+        objectData.pos = pos.toVec2()
         let downKeys = owner.getDownKeys()
         if downKeys.left and not downKeys.right
             acceleration = LEFT * 10

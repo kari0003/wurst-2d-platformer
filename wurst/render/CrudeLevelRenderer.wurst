@@ -1,0 +1,48 @@
+package CrudeLevelRenderer
+import RenderModule
+import LevelData
+import HashList
+import LinkedList
+
+/*
+    Just create an image for each tile and object and then remove it again.
+    Probably very bad but works for now :)
+*/
+
+class Image
+    image img
+
+    construct(image img)
+        this.img = img
+
+    ondestroy
+        img.remove()
+
+public class CrudeLevelRenderer implements LevelRenderer
+    private let images = new LinkedList<Image>
+    private LevelData data = null
+
+    private function renderImage(string texture, vec2 size, vec2 pos, vec2 margin)
+        let img = createImage(texture, pos, size.x, size.y, ImageLayer.L1)..show()
+        if img != null
+            images.add(new Image(img))
+
+    override function setLevelData(LevelData data)
+        this.data = data
+
+    override function draw()
+        for img from images.staticItr()
+            if img != null
+                destroy img
+
+        images.clear()
+
+        for i = 0 to data.getWidth() - 1
+            for j = 0 to data.getHeight() - 1
+                let tile = data.getTile(i, j)
+                if tile != null and tile.texturePath.isNotBlank()
+                    renderImage(tile.texturePath, vec2(data.getTileSize(), data.getTileSize()), vec2(data.getTileSize() * i, data.getTileSize() * j), ZERO2)
+
+
+        for gameObject in data.getObjects()
+            renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, ZERO2)

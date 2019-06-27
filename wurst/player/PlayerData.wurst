@@ -19,6 +19,7 @@ class PlayerData
 
     function setHero(PlayerHero hero)
         this.hero = hero
+        camera.setTarget(hero.dummyUnit)
 
 init
     nullTimer() ->
