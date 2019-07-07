@@ -43,12 +43,38 @@ public class CollisionHandler
             if gameTile.pathing == Pathing.BLOCKED and distance.x.abs() < collisionDistance.x and distance.y.abs() < collisionDistance.y
                 let correction = getCorrectionVec(distance, collisionDistance)
                 if correction.x.abs() < correction.y.abs()
-                    gameObject.pos.x += correction.x
+                    gameObject.pos.x = gameObject.pos.x + correction.x
                 else
-                    gameObject.pos.y += correction.y
+                    gameObject.pos.y = gameObject.pos.y + correction.y
+                    if correction.y >= 0.
+                        gameObject.onGround = true
+            destroy tile
+
+
+        // Onground status
+        if (gameObject.pos.y + ts/2.) % ts > gameObject.size.y / 2
+            gameObject.onGround = false
+
+        if gameObject.onGround
+            let groundTiles = new LinkedList<TileIndex>()
+                ..push(new TileIndex(tileX, tileY - 1))
+                ..push(new TileIndex(tileX - 1, tileY - 1))
+                ..push(new TileIndex(tileX + 1, tileY - 1))
+            var startFalling = true
+            for tile in groundTiles
+                let gameTile = data.getTile(tile.x, tile.y)
+                let distance = gameObject.pos - tile.getCenter(ts)
+                let collisionDistance = vec2((gameObject.size.x + ts) / 2,(gameObject.size.y + ts) / 2)
+                if gameTile.pathing == Pathing.BLOCKED and distance.x.abs() < collisionDistance.x
+                    startFalling = false
+                destroy tile
+
+            gameObject.onGround = not startFalling
+            destroy groundTiles
+        destroy checkTiles
 
     function getCorrectionVec(vec2 offset, vec2 collisionOffset) returns vec2
-        let directedCollOffset = vec2(collisionOffset.x * offset.x.sign(), collisionOffset.y * offset.y.sign())
+        let directedCollOffset = vec2(collisionOffset.x * (offset.x > 0 ? 1 : -1), collisionOffset.y * (offset.y > 0 ? 1 : -1))
         return directedCollOffset - offset
 
     function applyCollision()

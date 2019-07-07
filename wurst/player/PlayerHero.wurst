@@ -13,7 +13,7 @@ public class PlayerHero extends Entity
     var onGround = false
 
     construct(player owner)
-        super(owner, ZERO2 + vec2(256, 256))
+        super(owner, ZERO2 + vec2(256, 384))
         sleeps = false
         objectData.texturePath = Textures.icon_file
         objectData.size = vec2(64, 64)
@@ -21,15 +21,22 @@ public class PlayerHero extends Entity
 
     function jump()
         if onGround
-            vel.y = 10
+            vel.y = 15
             onGround = false
 
     override function update()
         pos.x = objectData.pos.x
         pos.y = objectData.pos.y
+        onGround = objectData.onGround
         super.update()
         dummyUnit.setXY(pos)
         objectData.pos = pos.toVec2()
+
+        if not onGround
+            vel.y += gravity
+        else
+            vel.y = 0.
+
         let downKeys = owner.getDownKeys()
         if downKeys.left and not downKeys.right
             acceleration = LEFT * 10
@@ -37,5 +44,8 @@ public class PlayerHero extends Entity
             acceleration = RIGHT * 10
         else
             acceleration = ZERO2
+
+        if downKeys.up and onGround
+            jump()
 
         vel.x = vel.x.lerp(acceleration.x, 0.5)
