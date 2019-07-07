@@ -1,0 +1,56 @@
+package CollisionHandler
+import LevelData
+import LinkedList
+
+class TileIndex
+    int x
+    int y
+
+    construct(int x, int y)
+        this.x = x
+        this.y = y
+
+    function getCenter(real tileSize) returns vec2
+        return vec2(x * tileSize, y * tileSize)
+
+
+public class CollisionHandler
+    private LevelData data = null
+
+    function setLevelData(LevelData data)
+        this.data = data
+
+    function checkForCollision(ObjectData gameObject)
+        let ts = data.getTileSize()
+        var zerobased = gameObject.pos + vec2(ts/2, ts/2)
+        let tileX = (zerobased.x/ts).toInt()
+        let tileY = (zerobased.y/ts).toInt()
+
+        let checkTiles = new LinkedList<TileIndex>()
+            ..push(new TileIndex(tileX, tileY - 1))
+            ..push(new TileIndex(tileX - 1, tileY - 1))
+            ..push(new TileIndex(tileX + 1, tileY - 1))
+            ..push(new TileIndex(tileX, tileY + 1))
+            ..push(new TileIndex(tileX - 1, tileY + 1))
+            ..push(new TileIndex(tileX + 1, tileY + 1))
+            ..push(new TileIndex(tileX - 1, tileY))
+            ..push(new TileIndex(tileX + 1, tileY))
+
+        for tile in checkTiles
+            let gameTile = data.getTile(tile.x, tile.y)
+            let distance = gameObject.pos - tile.getCenter(ts)
+            let collisionDistance = vec2((gameObject.size.x + ts) / 2,(gameObject.size.y + ts) / 2)
+            if gameTile.pathing == Pathing.BLOCKED and distance.x.abs() < collisionDistance.x and distance.y.abs() < collisionDistance.y
+                let correction = getCorrectionVec(distance, collisionDistance)
+                if correction.x.abs() < correction.y.abs()
+                    gameObject.pos.x += correction.x
+                else
+                    gameObject.pos.y += correction.y
+
+    function getCorrectionVec(vec2 offset, vec2 collisionOffset) returns vec2
+        let directedCollOffset = vec2(collisionOffset.x * offset.x.sign(), collisionOffset.y * offset.y.sign())
+        return directedCollOffset - offset
+
+    function applyCollision()
+        for gameObject in data.getObjects()
+            checkForCollision(gameObject)

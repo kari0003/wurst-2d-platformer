@@ -4,6 +4,7 @@ import RenderModule
 import Players
 import PlayerData
 import PlayerHero
+import CollisionHandler
 import ClosureTimers
 
 public Level currentLevel = null
@@ -11,13 +12,17 @@ public Level currentLevel = null
 public class Level
     private LevelData levelData
     private LevelRenderer renderer
+    private CollisionHandler collisionHandler
 
-    construct(LevelData levelData, LevelRenderer renderer)
+    construct(LevelData levelData, LevelRenderer renderer, CollisionHandler collisionHandler)
         this.levelData = levelData
         this.renderer = renderer
+        this.collisionHandler = collisionHandler
         renderer.setLevelData(levelData)
+        collisionHandler.setLevelData(levelData)
 
     function render()
+        collisionHandler.applyCollision()
         renderer.draw()
 
     function start()

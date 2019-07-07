@@ -17,14 +17,16 @@ public class PlayerHero extends Entity
         sleeps = false
         objectData.texturePath = Textures.icon_file
         objectData.size = vec2(64, 64)
+        objectData.pos = pos.toVec2()
 
     function jump()
         if onGround
             vel.y = 10
             onGround = false
 
-
     override function update()
+        pos.x = objectData.pos.x
+        pos.y = objectData.pos.y
         super.update()
         dummyUnit.setXY(pos)
         objectData.pos = pos.toVec2()
