@@ -15,7 +15,7 @@ public class PlayerHero extends Entity
     construct(player owner)
         super(owner, ZERO2 + vec2(256, 256))
         sleeps = false
-        objectData.texturePath = Textures.icon_file
+        objectData.texturePath = Textures.icon_folder_up
         objectData.size = vec2(64, 64)
 
     function jump()
@@ -28,12 +28,21 @@ public class PlayerHero extends Entity
         super.update()
         dummyUnit.setXY(pos)
         objectData.pos = pos.toVec2()
+        if not onGround
+            vel.y += gravity
+
+        checkInput(false)
+
+    function checkInput(boolean jump)
         let downKeys = owner.getDownKeys()
         if downKeys.left and not downKeys.right
-            acceleration = LEFT * 10
+            acceleration = LEFT * 5
         else if downKeys.right and not downKeys.left
-            acceleration = RIGHT * 10
+            acceleration = RIGHT * 5
         else
             acceleration = ZERO2
 
-        vel.x = vel.x.lerp(acceleration.x, 0.5)
+        if downKeys.up and onGround
+            jump()
+
+        vel.x = vel.x.lerp(acceleration.x, 0.15)

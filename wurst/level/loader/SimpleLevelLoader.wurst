@@ -5,6 +5,7 @@ import LevelData
 import Textures
 import SimpleLevelRenderer
 import CrudeLevelRenderer
+import CrudeCollisionHandler
 
 /*
     Loads a level from a 'SimpleLevelSaveData' input.
@@ -51,7 +52,8 @@ public class SimpleLevelLoader
 
         // Different levels could have different renderers
         let renderer = new CrudeLevelRenderer()
-        let level = new Level(data, renderer)
+        let coll = INSTANCE
+        let level = new Level(data, renderer, coll)
         return level
 
 

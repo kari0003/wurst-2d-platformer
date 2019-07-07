@@ -5,28 +5,36 @@ import Players
 import PlayerData
 import PlayerHero
 import ClosureTimers
+import CollisionModule
+import HashMap
+import Entity
 
 public Level currentLevel = null
 
 public class Level
     private LevelData levelData
     private LevelRenderer renderer
+    private CollisionHandler collision
+    private let entityMap = new HashMap<ObjectData, Entity>
 
-    construct(LevelData levelData, LevelRenderer renderer)
+    construct(LevelData levelData, LevelRenderer renderer, CollisionHandler collision)
         this.levelData = levelData
         this.renderer = renderer
+        this.collision = collision
         renderer.setLevelData(levelData)
-
-    function render()
-        renderer.draw()
+        collision.setLevelData(levelData)
 
     function start()
         ALL_PLAYERS.forEach() p ->
             let hero = new PlayerHero(p)
             p.getData().setHero(hero)
             levelData.addObject(hero.objectData)
+            entityMap.put(hero.objectData, hero)
 
-        doPeriodically(ANIMATION_PERIOD, (cb) -> render())
+        doPeriodically(ANIMATION_PERIOD) (cb) ->
+            for obj in levelData.getObjects()
+                collision.apply(obj, entityMap.get(obj))
+            renderer.draw()
 
     function getData() returns LevelData
         return levelData

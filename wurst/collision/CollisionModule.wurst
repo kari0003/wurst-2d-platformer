@@ -1,0 +1,11 @@
+package CollisionModule
+import Entity
+import LevelData
+
+public interface CollisionHandler
+
+    function setLevelData(LevelData levelData)
+
+    function apply(ObjectData data, Entity entity)
+
+

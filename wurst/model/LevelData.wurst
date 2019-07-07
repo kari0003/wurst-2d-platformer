@@ -38,7 +38,7 @@ public class TileData
 public class LevelData
     /** Stores the tile grid */
     private let tileMap = new HashMap<int, TileData>
-    /** Stores level entities which aren't contrained to grid */
+    /** Stores level entities which aren't constrained to grid */
     private let objectList = new HashList<ObjectData>
     /** How many horizontal tiles */
     private var width = 32
