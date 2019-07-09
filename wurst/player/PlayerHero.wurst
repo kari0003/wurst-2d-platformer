@@ -21,31 +21,31 @@ public class PlayerHero extends Entity
 
     function jump()
         if onGround
-            vel.y = 15
-            onGround = false
+            objectData.vel.y = 15
+            objectData.onGround = false
 
     override function update()
-        pos.x = objectData.pos.x
-        pos.y = objectData.pos.y
+        pos = objectData.pos.toVec3()
         onGround = objectData.onGround
+        vel = objectData.vel.toVec3()
         super.update()
         dummyUnit.setXY(pos)
         objectData.pos = pos.toVec2()
 
         if not onGround
-            vel.y += gravity
+            objectData.vel.y += gravity
         else
-            vel.y = 0.
+            objectData.vel.y = 0.
 
         let downKeys = owner.getDownKeys()
         if downKeys.left and not downKeys.right
-            acceleration = LEFT * 10
+            acceleration = LEFT * 5
         else if downKeys.right and not downKeys.left
-            acceleration = RIGHT * 10
+            acceleration = RIGHT * 5
         else
             acceleration = ZERO2
 
         if downKeys.up and onGround
             jump()
 
-        vel.x = vel.x.lerp(acceleration.x, 0.5)
+        objectData.vel.x = vel.x.lerp(acceleration.x, 0.3)

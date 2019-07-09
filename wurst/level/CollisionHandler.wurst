@@ -44,8 +44,10 @@ public class CollisionHandler
                 let correction = getCorrectionVec(distance, collisionDistance)
                 if correction.x.abs() < correction.y.abs()
                     gameObject.pos.x = gameObject.pos.x + correction.x
+                    gameObject.vel.x = 0.
                 else
                     gameObject.pos.y = gameObject.pos.y + correction.y
+                    gameObject.vel.y = 0.
                     if correction.y >= 0.
                         gameObject.onGround = true
             destroy tile
