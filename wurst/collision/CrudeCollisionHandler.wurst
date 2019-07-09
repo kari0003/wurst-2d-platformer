@@ -22,18 +22,18 @@ public class CrudeCollisionHandler implements CollisionHandler
 
         if entityVel.x > 0
             // moving to the right, if right corners are blocked, negate x vel
-            if getTile(cornerRT).pathing == Pathing.BLOCKED
-                or getTile(cornerRB + vec2(0,4)).pathing == Pathing.BLOCKED
-                entityVel.x *= -0.1
+            if getTile(cornerRT + vec2(1,0)).pathing == Pathing.BLOCKED
+                or getTile(cornerRB + vec2(1,4)).pathing == Pathing.BLOCKED
+                entityVel.x = 0
         else if entityVel.x < 0
             // moving to the left, if left corners are blocked, negate x vel
-            if getTile(cornerLT).pathing == Pathing.BLOCKED
-                or getTile(cornerLB + vec2(0,4)).pathing == Pathing.BLOCKED
-                entityVel.x *= -0.1
+            if getTile(cornerLT + vec2(-1,0)).pathing == Pathing.BLOCKED
+                or getTile(cornerLB + vec2(-1,4)).pathing == Pathing.BLOCKED
+                entityVel.x = 0
         if entityVel.y > 0
             // jumping up, if top corners are blocked, negate y vel
-            if getTile(cornerLT + vec2(4, 0)).pathing == Pathing.BLOCKED
-                or getTile(cornerRT - vec2(4, 0)).pathing == Pathing.BLOCKED
+            if getTile(cornerLT + vec2(4, 1)).pathing == Pathing.BLOCKED
+                or getTile(cornerRT - vec2(4, 1)).pathing == Pathing.BLOCKED
                 entityVel.y = 0
         else if entityVel.y < 0
             // falling down up, if bottom corners are blocked, negate y vel
@@ -42,11 +42,10 @@ public class CrudeCollisionHandler implements CollisionHandler
                 entityVel.y = 0
 
         if entity instanceof PlayerHero
-            (entity castTo PlayerHero).onGround = getTile(cornerLB + vec2(6, 0)).pathing == Pathing.BLOCKED
-                                               or getTile(cornerRB - vec2(6, 0)).pathing == Pathing.BLOCKED
+            (entity castTo PlayerHero).onGround = getTile(cornerLB + vec2(6, -1)).pathing == Pathing.BLOCKED
+                                               or getTile(cornerRB - vec2(6, -1)).pathing == Pathing.BLOCKED
 
         entity.setVel(entityVel)
-        entity.setPos(entity.getPos() + entityVel)
 
     function getTile(vec3 pos) returns TileData
         let x = (pos.x / levelData.getTileSize()).round()

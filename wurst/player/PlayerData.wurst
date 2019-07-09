@@ -32,4 +32,3 @@ init
         let id = GetTriggerEventId()
 
         pl.getData().hero.checkInput(true)
-        INSTANCE.apply(pl.getData().hero.objectData, pl.getData().hero)

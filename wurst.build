@@ -3,3 +3,61 @@ projectName: Wurst 2d Platformer
 dependencies:
 - https://github.com/wurstscript/wurstStdlib2
 - https://github.com/frotty/frentity
+buildMapData:
+  name: 'SCF002'
+  fileName: SCF2
+  author: Frotty
+  players:
+  - id: 0
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 1
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 2
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 3
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 4
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 5
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 6
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 7
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 8
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 9
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 10
+    race: HUMAN
+    fixedStartLoc: true
+  - id: 11
+    race: HUMAN
+    fixedStartLoc: true
+  forces:
+  - name: Yiss
+    playerIds:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+  - name: Aww
+    playerIds:
+    - 11

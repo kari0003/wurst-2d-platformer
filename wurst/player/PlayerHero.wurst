@@ -4,6 +4,7 @@ import DummyRecycler
 import KeyUtils
 import ObjectData
 import Textures
+import Interpolation
 
 public class PlayerHero extends Entity
     let objectData = new ObjectData()
@@ -16,11 +17,11 @@ public class PlayerHero extends Entity
         super(owner, ZERO2 + vec2(256, 256))
         sleeps = false
         objectData.texturePath = Textures.icon_folder_up
-        objectData.size = vec2(64, 64)
+        objectData.size = vec2(72, 72)
 
     function jump()
         if onGround
-            vel.y = 10
+            vel.y = 18
             onGround = false
 
 
@@ -35,14 +36,16 @@ public class PlayerHero extends Entity
 
     function checkInput(boolean jump)
         let downKeys = owner.getDownKeys()
-        if downKeys.left and not downKeys.right
-            acceleration = LEFT * 5
-        else if downKeys.right and not downKeys.left
-            acceleration = RIGHT * 5
-        else
-            acceleration = ZERO2
-
-        if downKeys.up and onGround
+        if downKeys.up
             jump()
 
-        vel.x = vel.x.lerp(acceleration.x, 0.15)
+        if downKeys.left and not downKeys.right
+            acceleration = LEFT * 10
+        else if downKeys.right and not downKeys.left
+            acceleration = RIGHT * 10
+        else
+            acceleration = acceleration.lerp(ZERO2, 0.75)
+
+
+        if not jump
+            vel.x = vel.x.lerp(acceleration.x, 0.45)
