@@ -20,6 +20,14 @@ public function int.toTileData() returns TileData
         case 0
             return new TileData()
         case 1
+            return new TileData(Pathing.BLOCKED, "grass1.tga")
+        case 2
+            return new TileData(Pathing.BLOCKED, "grass_end_right.tga")
+        case 3
+            return new TileData(Pathing.BLOCKED, "cliff_edge_right.tga")
+        case 4
+            return new TileData(Pathing.BLOCKED, "grass1.tga")
+        case 5
             return new TileData(Pathing.BLOCKED, "therock.tga")
     return null
 
