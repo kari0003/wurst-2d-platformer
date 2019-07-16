@@ -36,7 +36,7 @@ public class PlayerHero extends Entity
 
     function checkInput(boolean jump)
         let downKeys = owner.getDownKeys()
-        if downKeys.up
+        if jump and downKeys.up
             jump()
 
         if downKeys.left and not downKeys.right
@@ -44,7 +44,7 @@ public class PlayerHero extends Entity
         else if downKeys.right and not downKeys.left
             acceleration = RIGHT * 10
         else
-            acceleration = acceleration.lerp(ZERO2, 0.75)
+            acceleration = acceleration.lerp(ZERO2, 0.55)
 
 
         if not jump
