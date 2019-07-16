@@ -7,6 +7,7 @@ import LinkedList
 /*
     Just create an image for each tile and object and then remove it again.
     Probably very bad but works for now :)
+    Expect that images are sized exactly as their size, and add +2 as transparent margin
 */
 
 class Image
@@ -23,7 +24,7 @@ public class CrudeLevelRenderer implements LevelRenderer
     private LevelData data = null
 
     private function renderImage(string texture, vec2 size, vec2 pos, vec2 margin)
-        let img = createImage(texture, pos, size.x + 1, size.y + 1, ImageLayer.L3)..show()
+        let img = createImage(texture, pos, size.x + 2, size.y + 2, ImageLayer.L3)..show()
         if img != null
             images.add(new Image(img))
 
