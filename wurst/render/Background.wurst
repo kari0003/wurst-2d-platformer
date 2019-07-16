@@ -1,0 +1,24 @@
+package Background
+// import LinkedList
+import GameCamera
+
+var DIST_FACTOR = vec2(0.6, 0.6)
+
+public class Background
+    string path
+    vec2 distFactor
+    image i
+    GameCamera cam
+
+    construct(string path, vec2 distFactor, GameCamera c)
+        this.path = path
+        this.distFactor = distFactor
+        this.cam = c
+
+    function render()
+        if i == null
+            i = createImage(path, cam.getPos() * this.distFactor, 5120, 5120, ImageLayer.L4)..show()
+        i.setPos(cam.getPos() * this.distFactor)
+
+    ondestroy
+        i.remove()
