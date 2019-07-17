@@ -42,8 +42,11 @@ public class CrudeCollisionHandler implements CollisionHandler
                 entityVel.y = 0
 
         if entity instanceof PlayerHero
-            (entity castTo PlayerHero).onGround = getTile(cornerLB + vec2(6, -1)).pathing == Pathing.BLOCKED
-                                               or getTile(cornerRB - vec2(6, -1)).pathing == Pathing.BLOCKED
+            Log.info("onG: " + (entity castTo PlayerHero).onGround.toString())
+            (entity castTo PlayerHero).onGround = (getTile(cornerLB + vec2(2, -1)).pathing == Pathing.BLOCKED
+                                                and getTile(cornerLB + vec2(2, 1)).pathing == Pathing.FREE)
+                                               or (getTile(cornerRB - vec2(2, 1)).pathing == Pathing.BLOCKED
+                                                and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
 
         entity.setVel(entityVel)
 
