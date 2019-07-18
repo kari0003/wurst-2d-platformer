@@ -47,7 +47,7 @@ public class LevelData
     /** Tile where players start */
     private var startingTile = tilePos(1, 4)
     /** Size of an individual tile */
-    private var tileSize = 88.
+    private var tileSize = 96.
 
     construct()
 
