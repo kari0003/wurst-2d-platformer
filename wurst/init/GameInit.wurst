@@ -3,7 +3,6 @@ import ClosureTimers
 import SimpleLevelLoader
 import Level_01
 import EntityManagement
-import MapBounds
 
 init
     doAfter(.1) () ->

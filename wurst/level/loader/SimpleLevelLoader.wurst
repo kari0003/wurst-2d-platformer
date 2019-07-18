@@ -2,8 +2,6 @@ package SimpleLevelLoader
 import LinkedList
 import Level
 import LevelData
-import Textures
-import SimpleLevelRenderer
 import CrudeLevelRenderer
 import CrudeCollisionHandler
 

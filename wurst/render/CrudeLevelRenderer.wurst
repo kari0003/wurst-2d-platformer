@@ -24,7 +24,7 @@ public class CrudeLevelRenderer implements LevelRenderer
     private LevelData data = null
 
     private function renderImage(string texture, vec2 size, vec2 pos, vec2 margin)
-        let img = createImage(texture, pos, size.x + 4, size.y + 4, ImageLayer.L3)..show()
+        let img = createImage(texture, pos, size.x + 2, size.y + 2, ImageLayer.L3)..show()
         if img != null
             images.add(new Image(img))
 
