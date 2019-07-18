@@ -4,7 +4,6 @@ import ClosureTimers
 import PlayerHero
 import KeyUtils
 import GameCamera
-import CrudeCollisionHandler
 
 PlayerData array pData
 
@@ -29,6 +28,4 @@ init
 
     addKeyListener() () ->
         let pl = GetTriggerPlayer()
-        let id = GetTriggerEventId()
-
         pl.getData().hero.checkInput(true)

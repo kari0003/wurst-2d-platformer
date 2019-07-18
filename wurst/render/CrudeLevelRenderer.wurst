@@ -23,8 +23,9 @@ public class CrudeLevelRenderer implements LevelRenderer
     private let images = new LinkedList<Image>
     private LevelData data = null
 
-    private function renderImage(string texture, vec2 size, vec2 pos, vec2 margin)
+    private function renderImage(string texture, vec2 size, vec2 pos, colorA color)
         let img = createImage(texture, pos, size.x + 2, size.y + 2, ImageLayer.L3)..show()
+        img.setColor(color)
         if img != null
             images.add(new Image(img))
 
@@ -42,8 +43,8 @@ public class CrudeLevelRenderer implements LevelRenderer
             for j = 0 to data.getHeight() - 1
                 let tile = data.getTile(i, j)
                 if tile != null and tile.texturePath.isNotBlank()
-                    renderImage(tile.texturePath, vec2(data.getTileSize(), data.getTileSize()), vec2(data.getTileSize() * i, data.getTileSize() * j), ZERO2)
+                    renderImage(tile.texturePath, vec2(data.getTileSize(), data.getTileSize()), vec2(data.getTileSize() * i, data.getTileSize() * j), COLOR_WHITE)
 
 
         for gameObject in data.getObjects()
-            renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, ZERO2)
+            renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, gameObject.color)
