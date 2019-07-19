@@ -50,3 +50,16 @@ public class PlayerHero extends Entity
 
         if not jump
             vel.x = vel.x.lerp(acceleration.x, 0.35)
+
+        setState()
+
+    function setState()
+        let downKeys = owner.getDownKeys()
+        if onGround and downKeys.left and not downKeys.right and vel.x < -2
+            objectData.state = "lwalk"
+        else if onGround and downKeys.right and not downKeys.left and vel.x > 2
+            objectData.state = "walk"
+        else if vel.x < -2
+            objectData.state = "lstand"
+        else if vel.x > 2
+            objectData.state = "stand"

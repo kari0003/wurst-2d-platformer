@@ -10,4 +10,5 @@ public class ObjectData
     var size = ZERO2
     var texturePath = ""
     var color = COLOR_WHITE
+    string state
 
