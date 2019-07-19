@@ -56,7 +56,10 @@ public class SimpleLevelLoader
 
         // Since the list starts at the top, we need to inversly read the input
         for tileId from levelSaveData.tileList.staticItr()
-            data.setTile(x, y, tileId.toTileData())
+            if tileId < 0
+                data.setStartingTile(x, y)
+            else
+                data.setTile(x, y, tileId.toTileData())
             x++
             if x == levelSaveData.width
                 x = 0

@@ -32,21 +32,28 @@ public class CrudeCollisionHandler implements CollisionHandler
                 entityVel.x = 0
         if entityVel.y > 0
             // jumping up, if top corners are blocked, negate y vel
-            if getTile(cornerLT + vec2(4, 1)).pathing == Pathing.BLOCKED
-                or getTile(cornerRT - vec2(4, 1)).pathing == Pathing.BLOCKED
+            if (getTile(cornerLT + vec2(4, 1)).pathing == Pathing.BLOCKED
+                and getTile(cornerLT + vec2(4, -(entityVel.y))).pathing == Pathing.FREE)
+                or (getTile(cornerRT + vec2(-4, 1)).pathing == Pathing.BLOCKED
+                and getTile(cornerRT + vec2(-4, -(entityVel.y))).pathing == Pathing.FREE)
                 entityVel.y = 0
+                Log.info("hit head")
         else if entityVel.y < 0
             // falling down up, if bottom corners are blocked, negate y vel
             if getTile(cornerLB + vec2(4, 0)).pathing == Pathing.BLOCKED
                 or getTile(cornerRB - vec2(4, 0)).pathing == Pathing.BLOCKED
                 entityVel.y = 0
+                Log.info("hit ground")
 
         if entity instanceof PlayerHero
-            Log.info("onG: " + (entity castTo PlayerHero).onGround.toString())
+            let oldG = (entity castTo PlayerHero).onGround
             (entity castTo PlayerHero).onGround = (getTile(cornerLB + vec2(2, -1)).pathing == Pathing.BLOCKED
                                                 and getTile(cornerLB + vec2(2, 1)).pathing == Pathing.FREE)
                                                or (getTile(cornerRB - vec2(2, 1)).pathing == Pathing.BLOCKED
                                                 and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
+
+            if oldG != (entity castTo PlayerHero).onGround
+                Log.info("onG changed")
 
         entity.setVel(entityVel)
 
