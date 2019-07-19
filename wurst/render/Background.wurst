@@ -1,6 +1,7 @@
 package Background
 // import LinkedList
 import GameCamera
+import PlayerData
 
 var DIST_FACTOR = vec2(0.6, 0.6)
 
@@ -10,14 +11,13 @@ public class Background
     image i
     GameCamera cam
 
-    construct(string path, vec2 distFactor, GameCamera c)
+    construct(string path, vec2 distFactor, player p)
         this.path = path
         this.distFactor = distFactor
-        this.cam = c
+        this.cam = p.getData().camera
+        i = createImage(path, cam.getPos() * this.distFactor, 5120, 5120, ImageLayer.L4)..showForPlayer(p)
 
     function render()
-        if i == null
-            i = createImage(path, cam.getPos() * this.distFactor, 5120, 5120, ImageLayer.L4)..show()
         i.setPos(cam.getPos() * this.distFactor)
 
     ondestroy

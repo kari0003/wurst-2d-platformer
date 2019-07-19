@@ -46,6 +46,8 @@ public class LevelData
     private var height = 32
     /** Tile where players start */
     private var startingTile = tilePos(1, 4)
+    /** Tile where players finish */
+    private var finishTile = tilePos(1, 4)
     /** Size of an individual tile */
     private var tileSize = 96.
 
@@ -57,6 +59,9 @@ public class LevelData
 
     function setStartingTile(int x, int y)
         this.startingTile = tilePos(x, y)
+
+    function setFinishTile(int x, int y)
+        this.finishTile = tilePos(x, y)
 
     function setTile(int x, int y, TileData tile)
         tileMap.put(x + width * y, tile)
