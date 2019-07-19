@@ -28,7 +28,7 @@ public class Level
 
     function start()
         ALL_PLAYERS.forEach() p ->
-            let hero = new PlayerHero(p)
+            let hero = new PlayerHero(p, levelData.getStartPosition())
             p.getData().setHero(hero)
             backgrounds.push(new Background("bacground-foggy-forest.tga", vec2(0.6, 0.6), p.getData().camera))
             levelData.addObject(hero.objectData)

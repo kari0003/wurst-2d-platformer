@@ -79,6 +79,9 @@ public class LevelData
     function getObjects() returns HashList<ObjectData>
         return objectList
 
+    function getStartPosition() returns vec2
+        return vec2(startingTile.x * tileSize, startingTile.y * tileSize)
+
 function TileData.assertEquals(TileData other)
     (this castTo int).assertEquals(other castTo int)
 

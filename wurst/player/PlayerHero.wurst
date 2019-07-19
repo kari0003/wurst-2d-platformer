@@ -13,8 +13,8 @@ public class PlayerHero extends Entity
     var acceleration = ZERO2
     var onGround = false
 
-    construct(player owner)
-        super(owner, ZERO2 + vec2(256, 256))
+    construct(player owner, vec2 pos)
+        super(owner, pos)
         sleeps = false
         objectData.texturePath = Textures.icon_folder_up
         objectData.size = vec2(72, 72)
@@ -41,11 +41,11 @@ public class PlayerHero extends Entity
             jump()
 
         if downKeys.left and not downKeys.right
-            acceleration = LEFT * 10
+            acceleration = LEFT * 8
         else if downKeys.right and not downKeys.left
-            acceleration = RIGHT * 10
+            acceleration = RIGHT * 8
         else
-            acceleration = acceleration.lerp(ZERO2, 0.55)
+            acceleration = acceleration.lerp(ZERO2, 0.45)
 
 
         if not jump
