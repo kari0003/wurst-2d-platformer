@@ -35,7 +35,6 @@ public class CrudeLevelRenderer implements LevelRenderer
         this.data = data
 
     override function draw()
-        Log.info(getElapsedGameTime().toString() + "draw update: " + (this castTo int).toString())
         for img from images.staticItr()
             if img != null
                 destroy img

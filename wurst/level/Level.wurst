@@ -10,6 +10,7 @@ import HashMap
 import Entity
 import Background
 import GameTimer
+import KeyUtils
 
 public Level currentLevel = null
 
@@ -39,6 +40,7 @@ public class Level extends Entity
         if started
             return
         started = true
+        currentLevel = this
         ALL_PLAYERS.forEach() p ->
             let hero = new PlayerHero(p, levelData.getStartPosition())
             p.getData().setHero(hero)
@@ -57,25 +59,31 @@ public class Level extends Entity
             renderer.draw()
 
             for p in ALL_PLAYERS
-                let pos = p.getData().hero.getPos()
-                let x = (pos.x / levelData.getTileSize()).round()
-                let y = (pos.y / levelData.getTileSize()).round()
-                if levelData.getTile(x, y).tilePos == levelData.getFinishTile()
-                    p.getData().hero.terminate()
-                    p.getData().hero = null
-                    donePlayers++
-                    if donePlayers >= ALL_PLAYERS.size()
-                        finished = true
-                        if nextLevel != null
-                            let delta = (getElapsedGameTime() * 100) % (ANIMATION_PERIOD * 100) / 50
-                            doAfter(delta) ->
-                                nextLevel.start()
-                            terminate()
-                            break
+                if p.getData().hero != null
+                    let pos = p.getData().hero.getPos()
+                    let x = (pos.x / levelData.getTileSize()).round()
+                    let y = (pos.y / levelData.getTileSize()).round()
+                    if levelData.getTile(x, y).tilePos == levelData.getFinishTile()
+                        levelData.removeObject(p.getData().hero.objectData)
+                        p.getData().hero.terminate()
+                        p.getData().hero = null
+                        donePlayers++
+                        if donePlayers >= ALL_PLAYERS.size()
+                            finished = true
+                            if nextLevel != null
+                                let delta = (getElapsedGameTime() * 100) % (ANIMATION_PERIOD * 100) / 50
+                                doAfter(delta) ->
+                                    nextLevel.start()
+                                terminate()
+                                currentLevel = null
+                                break
 
 
     function getData() returns LevelData
         return levelData
+
+    function getEntityMap() returns HashMap<ObjectData, Entity>
+        return entityMap
 
     ondestroy
         destroy entityMap
@@ -83,3 +91,14 @@ public class Level extends Entity
         destroy levelData
         destroy renderer
         destroy collision
+
+init
+    EventListener.add(EVENT_PLAYER_END_CINEMATIC) ->
+        if currentLevel != null
+            let data = GetTriggerPlayer().getData()
+            currentLevel.getData().removeObject(data.hero.objectData)
+            data.hero.terminate()
+            let newHero = new PlayerHero(GetTriggerPlayer(), currentLevel.getData().getStartPosition())
+            data.setHero(newHero)
+            currentLevel.getData().addObject(newHero.objectData)
+            currentLevel.getEntityMap().put(newHero.objectData, newHero)

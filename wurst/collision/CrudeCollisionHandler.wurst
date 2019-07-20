@@ -13,7 +13,6 @@ public class CrudeCollisionHandler implements CollisionHandler
         this.levelData = levelData
 
     override function apply(ObjectData data, Entity entity)
-        Log.info(getElapsedGameTime().toString() + "coll update: " + (this castTo int).toString())
         var entityVel = entity.getVel()
         let futurePos = entity.getPos() + entityVel
         let cornerLT = futurePos + vec2(-(data.size.x / 2), (data.size.y / 2))

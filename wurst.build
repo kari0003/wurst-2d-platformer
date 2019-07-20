@@ -4,8 +4,8 @@ dependencies:
 - https://github.com/wurstscript/wurstStdlib2
 - https://github.com/frotty/frentity
 buildMapData:
-  name: 'SCF003'
-  fileName: SCF3
+  name: 'SCF006'
+  fileName: SCF6
   author: Frotty & Kari
   players:
   - id: 0
