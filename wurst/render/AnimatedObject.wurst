@@ -1,0 +1,39 @@
+package AnimatedObject
+import RenderModule
+import ObjectData
+import LinkedList
+import Animation
+
+public class AnimatedObject implements RenderObject
+    ObjectData obj
+    var animations = new LinkedList<Animation>
+    int animationTick = 0
+    image img
+
+    construct(ObjectData object)
+        obj = object
+
+    function addAnimation(Animation a)
+        animations.push(a)
+
+    override function render()
+        if img !=  null
+            img.remove()
+        var texture = animations.getFirst().frames.getFirst()
+        for animation in animations
+            if animation.name == obj.state
+                texture = animation.getCurrentFrame()
+                animationTick = (animationTick + 1) mod 4
+                if animationTick mod 4 == 0
+                    animation.tick()
+        img = createImage(texture, obj.pos, obj.size.x + 2, obj.size.y + 2, ImageLayer.L3)..show()
+        img.setColor(obj.color)
+
+public function createHeroRenderer(ObjectData obj) returns AnimatedObject
+    let ao = new AnimatedObject(obj)
+    ao.addAnimation(new Animation("walk", new LinkedList<string>..add("troll/walk1.tga")..add("troll/walk2.tga")..add("troll/walk3.tga")..add("troll/stand.tga")))
+    ao.addAnimation(new Animation("lwalk", new LinkedList<string>..add("troll/lwalk1.tga")..add("troll/lwalk2.tga")..add("troll/lwalk3.tga")..add("troll/lstand.tga")))
+    ao.addAnimation(new Animation("stand", new LinkedList<string>..add("troll/stand.tga")))
+    ao.addAnimation(new Animation("lstand", new LinkedList<string>..add("troll/lstand.tga")))
+
+    return ao

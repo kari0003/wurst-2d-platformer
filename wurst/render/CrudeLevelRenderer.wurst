@@ -23,6 +23,7 @@ class Image
 public class CrudeLevelRenderer implements LevelRenderer
     private let images = new LinkedList<Image>
     private LevelData data = null
+    // private var animatedObjects = new LinkedList<AnimatedObject>
 
     private function renderImage(string texture, vec2 size, vec2 pos, colorA color)
         let img = createImage(texture, pos, size.x + 2, size.y + 2, ImageLayer.L3)..show()
@@ -51,9 +52,17 @@ public class CrudeLevelRenderer implements LevelRenderer
         for gameObject in data.getObjects()
             renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, gameObject.color)
 
+        // Do this once for the renderer when the game objects are created (or add these specifically for the heroes)
+        //     for obj in data.getObjects()
+        //         animatedObjects.push(createHeroRenderer(obj))
+
+        // for animatedObject in animatedObjects
+        //     animatedObject.render()
+
     ondestroy
         for img from images.staticItr()
             if img != null
                 destroy img
 
         destroy images
+
