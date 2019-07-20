@@ -2,14 +2,20 @@ package GameInit
 import ClosureTimers
 import SimpleLevelLoader
 import Level_01
+import Level_02
 import EntityManagement
 
 init
     doAfter(.1) () ->
         hideOriginFrames(true)
         startEntityLoop()
+
+        let level02 = SimpleLevelLoader.load(LEVEL_02_DATA)
+
         let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
-        level01.start()
+        level02.nextLevel = level01
+        level02.start()
+
 
         EnableOcclusion(false)
         createVision(players[0], playableMapRect, false)

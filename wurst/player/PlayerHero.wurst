@@ -5,10 +5,12 @@ import KeyUtils
 import ObjectData
 import Textures
 import Interpolation
+import GameTimer
 
 public class PlayerHero extends Entity
     let objectData = new ObjectData()
-    let dummyUnit = DummyRecycler.get(ZERO2, angle(0))
+    let dummyUnit = createUnit(owner, DUMMY_UNIT_ID, pos, 0 .fromDeg())
+        ..setXY(pos)..addAbility(HEIGHT_ENABLER)..removeAbility(HEIGHT_ENABLER)..addAbility(LOCUST_ID)
 
     var acceleration = ZERO2
     var onGround = false
@@ -28,6 +30,7 @@ public class PlayerHero extends Entity
 
     override function update()
         super.update()
+        Log.info(getElapsedGameTime().toString() + "ph update: " + (this castTo int).toString())
         dummyUnit.setXY(pos)
         objectData.pos = pos.toVec2()
         if not onGround
@@ -50,3 +53,6 @@ public class PlayerHero extends Entity
 
         if not jump
             vel.x = vel.x.lerp(acceleration.x, 0.35)
+
+    ondestroy
+        dummyUnit.remove()

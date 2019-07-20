@@ -3,8 +3,8 @@ import CollisionModule
 import LevelData
 import Entity
 import PlayerHero
+import GameTimer
 
-public constant INSTANCE = new CrudeCollisionHandler
 
 public class CrudeCollisionHandler implements CollisionHandler
     LevelData levelData
@@ -13,6 +13,7 @@ public class CrudeCollisionHandler implements CollisionHandler
         this.levelData = levelData
 
     override function apply(ObjectData data, Entity entity)
+        Log.info(getElapsedGameTime().toString() + "coll update: " + (this castTo int).toString())
         var entityVel = entity.getVel()
         let futurePos = entity.getPos() + entityVel
         let cornerLT = futurePos + vec2(-(data.size.x / 2), (data.size.y / 2))
@@ -37,13 +38,11 @@ public class CrudeCollisionHandler implements CollisionHandler
                 or (getTile(cornerRT + vec2(-4, 1)).pathing == Pathing.BLOCKED
                 and getTile(cornerRT + vec2(-4, -(entityVel.y))).pathing == Pathing.FREE)
                 entityVel.y = 0
-                Log.info("hit head")
         else if entityVel.y < 0
             // falling down up, if bottom corners are blocked, negate y vel
             if getTile(cornerLB + vec2(4, 0)).pathing == Pathing.BLOCKED
                 or getTile(cornerRB - vec2(4, 0)).pathing == Pathing.BLOCKED
                 entityVel.y = 0
-                Log.info("hit ground")
 
         if entity instanceof PlayerHero
             let oldG = (entity castTo PlayerHero).onGround
@@ -53,7 +52,6 @@ public class CrudeCollisionHandler implements CollisionHandler
                                                 and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
 
             if oldG != (entity castTo PlayerHero).onGround
-                Log.info("onG changed")
 
         entity.setVel(entityVel)
 

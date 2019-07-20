@@ -63,8 +63,16 @@ public class LevelData
     function setFinishTile(int x, int y)
         this.finishTile = tilePos(x, y)
 
+    function getFinishTile() returns tilePos
+        return this.finishTile
+
     function setTile(int x, int y, TileData tile)
+        tile.tilePos = tilePos(x, y)
         tileMap.put(x + width * y, tile)
+
+    /** Expects real world position, divides by tileSize */
+    function getTile(vec2 pos) returns TileData
+        return tileMap.get(((pos.x / tileSize).round() + width * (pos.y / tileSize).round()))
 
     function getTile(int x, int y) returns TileData
         return tileMap.get(x + width * y)
@@ -86,6 +94,12 @@ public class LevelData
 
     function getStartPosition() returns vec2
         return vec2(startingTile.x * tileSize, startingTile.y * tileSize)
+
+    ondestroy
+        destroy tileMap
+        for obj in objectList
+            destroy obj
+        destroy objectList
 
 function TileData.assertEquals(TileData other)
     (this castTo int).assertEquals(other castTo int)

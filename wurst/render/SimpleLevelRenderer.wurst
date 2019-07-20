@@ -34,3 +34,7 @@ public class SimpleLevelRenderer implements LevelRenderer
     override function draw()
         for renderObject from renderObjects.staticItr()
             renderObject.render()
+
+    ondestroy
+        renderObjects.forEach(obj -> destroy obj)
+        destroy renderObjects

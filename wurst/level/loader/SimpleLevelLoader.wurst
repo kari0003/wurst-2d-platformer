@@ -60,8 +60,11 @@ public class SimpleLevelLoader
                 switch tileId
                     case -1
                         data.setStartingTile(x, y)
+                        data.setTile(x, y, new TileData())
                     case -2
                         data.setFinishTile(x, y)
+                        data.setTile(x, y, new TileData(Pathing.FREE, "finish.tga"))
+
             else
                 data.setTile(x, y, tileId.toTileData())
             x++
@@ -71,7 +74,7 @@ public class SimpleLevelLoader
 
         // Different levels could have different renderers
         let renderer = new CrudeLevelRenderer()
-        let coll = INSTANCE
+        let coll = new CrudeCollisionHandler()
         let level = new Level(data, renderer, coll)
         return level
 

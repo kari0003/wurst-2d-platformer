@@ -28,4 +28,5 @@ init
 
     addKeyListener() () ->
         let pl = GetTriggerPlayer()
-        pl.getData().hero.checkInput(true)
+        if pl.getData().hero != null
+            pl.getData().hero.checkInput(true)

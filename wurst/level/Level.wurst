@@ -9,15 +9,22 @@ import CollisionModule
 import HashMap
 import Entity
 import Background
+import GameTimer
 
 public Level currentLevel = null
 
-public class Level
+public class Level extends Entity
     private LevelData levelData
     private LevelRenderer renderer
     private CollisionHandler collision
     private let entityMap = new HashMap<ObjectData, Entity>
     private let backgrounds = new LinkedList<Background>
+
+    Level nextLevel = null
+    var finished = false
+    var started = false
+
+    private var donePlayers = 0
 
     construct(LevelData levelData, LevelRenderer renderer, CollisionHandler collision)
         this.levelData = levelData
@@ -25,24 +32,54 @@ public class Level
         this.collision = collision
         renderer.setLevelData(levelData)
         collision.setLevelData(levelData)
+        sleeps = false
+        deactivate()
 
     function start()
+        if started
+            return
+        started = true
         ALL_PLAYERS.forEach() p ->
             let hero = new PlayerHero(p, levelData.getStartPosition())
             p.getData().setHero(hero)
             backgrounds.push(new Background("bacground-foggy-forest.tga", vec2(0.6, 0.6), p))
             levelData.addObject(hero.objectData)
             entityMap.put(hero.objectData, hero)
+        activate()
 
-        doPeriodically(ANIMATION_PERIOD) (cb) ->
+    override function update()
+        if not finished
             for obj in levelData.getObjects()
                 collision.apply(obj, entityMap.get(obj))
+
             for bg in backgrounds
                 bg.render()
             renderer.draw()
+
+            for p in ALL_PLAYERS
+                let pos = p.getData().hero.getPos()
+                let x = (pos.x / levelData.getTileSize()).round()
+                let y = (pos.y / levelData.getTileSize()).round()
+                if levelData.getTile(x, y).tilePos == levelData.getFinishTile()
+                    p.getData().hero.terminate()
+                    p.getData().hero = null
+                    donePlayers++
+                    if donePlayers >= ALL_PLAYERS.size()
+                        finished = true
+                        if nextLevel != null
+                            let delta = (getElapsedGameTime() * 100) % (ANIMATION_PERIOD * 100) / 50
+                            doAfter(delta) ->
+                                nextLevel.start()
+                            terminate()
+                            break
+
 
     function getData() returns LevelData
         return levelData
 
     ondestroy
+        destroy entityMap
         destroy backgrounds
+        destroy levelData
+        destroy renderer
+        destroy collision
