@@ -4,6 +4,7 @@ import LevelData
 import HashList
 import LinkedList
 import GameTimer
+import HashMap
 
 /*
     Just create an image for each tile and object and then remove it again.
@@ -12,33 +13,43 @@ import GameTimer
 */
 
 class Image
+    int texId
     image img
 
-    construct(image img)
+    construct(image img, int texId)
         this.img = img
+        this.texId = texId
 
     ondestroy
         img.remove()
 
 public class CrudeLevelRenderer implements LevelRenderer
-    private let images = new LinkedList<Image>
+    private let imagePool = new IterableMap<int, LinkedList<Image>>
+    private let usedImages = new LinkedList<Image>
     private LevelData data = null
 
     private function renderImage(string texture, vec2 size, vec2 pos, colorA color)
-        let img = createImage(texture, pos, size.x + 2, size.y + 2, ImageLayer.L3)..show()
-        img.setColor(color)
-        if img != null
-            images.add(new Image(img))
+        let texId = texture.getHash()
+        if not imagePool.has(texId)
+            imagePool.put(texId, new LinkedList<Image>)
+
+        let imageList = imagePool.get(texId)
+        if imageList.isEmpty()
+            imageList.add(new Image(createImage(texture, pos, size.x + 2, size.y + 2, ImageLayer.L3), texId))
+
+        let img = imageList.pop()
+        usedImages.push(img)
+        img.img..setPos(pos)..setColor(color)..show()
 
     override function setLevelData(LevelData data)
         this.data = data
 
     override function draw()
-        for img from images.staticItr()
-            if img != null
-                destroy img
-
-        images.clear()
+        let itr = usedImages.iterator()
+        for img from itr
+            img.img.hide()
+            imagePool.get(img.texId).add(img)
+            itr.remove()
 
         for i = 0 to data.getWidth() - 1
             for j = 0 to data.getHeight() - 1
@@ -51,9 +62,13 @@ public class CrudeLevelRenderer implements LevelRenderer
             renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, gameObject.color)
 
     ondestroy
-        for img from images.staticItr()
+        for img from usedImages.staticItr()
             if img != null
                 destroy img
 
-        destroy images
+        destroy usedImages
+
+        for texId in imagePool
+            destroy imagePool.get(texId)
+        destroy imagePool
 
