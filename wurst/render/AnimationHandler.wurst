@@ -10,6 +10,11 @@ public constant AnimationDefinition LSTAND_ANIM = new AnimationDefinition("lstan
 public class AnimationHandler
     var animations = new LinkedList<AnimationData>
     string currentAnimation
+    string baseTexture
+
+    construct (string baseTexture, string baseAnimation)
+        this.baseTexture = baseTexture
+        this.currentAnimation = baseAnimation
 
     function getCurrentAnimation() returns AnimationData
         for animation in animations
@@ -18,17 +23,24 @@ public class AnimationHandler
         return animations.getFirst()
 
     function getCurrentImage() returns string
-        return getCurrentAnimation().getCurrentFrame()
+        let current = getCurrentAnimation()
+        if current != null
+            return current.getCurrentFrame()
+        return baseTexture
 
     function addAnimation(AnimationDefinition a)
         animations.add(new AnimationData(a))
 
     function changeAnimation(string newAnimation)
-        getCurrentAnimation().resetAnimation()
+        let current = getCurrentAnimation()
+        if current != null
+            current.resetAnimation()
         currentAnimation = newAnimation
 
     function update()
-        getCurrentAnimation().update(ANIMATION_PERIOD)
+        let current = getCurrentAnimation()
+        if current != null
+            current.update(ANIMATION_PERIOD)
 
     ondestroy
         for animation in animations

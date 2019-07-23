@@ -6,7 +6,7 @@ public class AnimationDefinition
     LinkedList<string> frames
     var startFrame = 0
     var endFrame = 0
-    var fps = 6
+    real fps = 6.
 
     construct(string name, LinkedList<string> frames)
         this.name = name
@@ -34,9 +34,12 @@ public class AnimationData
         return data.frames.get(getFrameCount())
 
     function update(real delta)
+        let frames = (data.endFrame - data.startFrame)
+        if frames == 0
+            animationTime = 0.
+            return
         animationTime += delta
-        let frames = data.endFrame - data.startFrame
-        if animationTime > frames / data.fps
+        if animationTime > (frames / data.fps)
             animationTime = animationTime % (frames / data.fps)
 
     function resetAnimation()

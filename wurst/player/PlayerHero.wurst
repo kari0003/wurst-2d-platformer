@@ -9,7 +9,7 @@ import AnimationHandler
 
 public class PlayerHero extends Entity
     let objectData = new ObjectData()
-    let animationHandler = new AnimationHandler()
+    AnimationHandler animationHandler
     let dummyUnit = createUnit(owner, DUMMY_UNIT_ID, pos, 0 .fromDeg())
         ..setXY(pos)..addAbility(HEIGHT_ENABLER)..removeAbility(HEIGHT_ENABLER)..addAbility(LOCUST_ID)
 
@@ -23,12 +23,11 @@ public class PlayerHero extends Entity
         objectData.size = vec2(72, 72)
         objectData.color = owner.getColor().toColor().withAlpha(225)
 
+        animationHandler = new AnimationHandler(objectData.texturePath, STAND_ANIM.name)
         animationHandler.addAnimation(STAND_ANIM)
         animationHandler.addAnimation(LSTAND_ANIM)
         animationHandler.addAnimation(LWALK_ANIM)
         animationHandler.addAnimation(WALK_ANIM)
-
-        print("We did it!!")
 
     function jump()
         if onGround
@@ -72,15 +71,19 @@ public class PlayerHero extends Entity
         let downKeys = owner.getDownKeys()
         if onGround and downKeys.left and not downKeys.right and vel.x < -2
             objectData.state = "lwalk"
-            animationHandler.changeAnimation(objectData.state)
+            updateCurrentAnimation()
         else if onGround and downKeys.right and not downKeys.left and vel.x > 2
             objectData.state = "walk"
-            animationHandler.changeAnimation(objectData.state)
+            updateCurrentAnimation()
         else if vel.x < -2
             objectData.state = "lstand"
-            animationHandler.changeAnimation(objectData.state)
+            updateCurrentAnimation()
         else if vel.x > 2
             objectData.state = "stand"
+            updateCurrentAnimation()
+
+    function updateCurrentAnimation()
+        if animationHandler.currentAnimation != objectData.state
             animationHandler.changeAnimation(objectData.state)
 
     ondestroy
