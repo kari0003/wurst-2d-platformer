@@ -1,0 +1,36 @@
+package AnimationHandler
+import LinkedList
+import AnimationData
+
+public constant AnimationDefinition WALK_ANIM = new AnimationDefinition("walk", new LinkedList<string>..add("troll/walk1.tga")..add("troll/walk2.tga")..add("troll/walk3.tga")..add("troll/stand.tga"))
+public constant AnimationDefinition LWALK_ANIM = new AnimationDefinition("lwalk", new LinkedList<string>..add("troll/lwalk1.tga")..add("troll/lwalk2.tga")..add("troll/lwalk3.tga")..add("troll/lstand.tga"))
+public constant AnimationDefinition STAND_ANIM = new AnimationDefinition("stand", new LinkedList<string>..add("troll/stand.tga"))
+public constant AnimationDefinition LSTAND_ANIM = new AnimationDefinition("lstand", new LinkedList<string>..add("troll/lstand.tga"))
+
+public class AnimationHandler
+    var animations = new LinkedList<AnimationData>
+    string currentAnimation
+
+    function getCurrentAnimation() returns AnimationData
+        for animation in animations
+            if animation.getName() == currentAnimation
+                return animation
+        return animations.getFirst()
+
+    function getCurrentImage() returns string
+        return getCurrentAnimation().getCurrentFrame()
+
+    function addAnimation(AnimationDefinition a)
+        animations.add(new AnimationData(a))
+
+    function changeAnimation(string newAnimation)
+        getCurrentAnimation().resetAnimation()
+        currentAnimation = newAnimation
+
+    function update()
+        getCurrentAnimation().update(ANIMATION_PERIOD)
+
+    ondestroy
+        for animation in animations
+            destroy animation
+        destroy animations

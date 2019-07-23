@@ -5,10 +5,11 @@ import KeyUtils
 import ObjectData
 import Textures
 import Interpolation
-import GameTimer
+import AnimationHandler
 
 public class PlayerHero extends Entity
     let objectData = new ObjectData()
+    let animationHandler = new AnimationHandler()
     let dummyUnit = createUnit(owner, DUMMY_UNIT_ID, pos, 0 .fromDeg())
         ..setXY(pos)..addAbility(HEIGHT_ENABLER)..removeAbility(HEIGHT_ENABLER)..addAbility(LOCUST_ID)
 
@@ -21,6 +22,13 @@ public class PlayerHero extends Entity
         objectData.texturePath = Textures.icon_folder_up
         objectData.size = vec2(72, 72)
         objectData.color = owner.getColor().toColor().withAlpha(225)
+
+        animationHandler.addAnimation(STAND_ANIM)
+        animationHandler.addAnimation(LSTAND_ANIM)
+        animationHandler.addAnimation(LWALK_ANIM)
+        animationHandler.addAnimation(WALK_ANIM)
+
+        print("We did it!!")
 
     function jump()
         if onGround
@@ -36,6 +44,10 @@ public class PlayerHero extends Entity
             vel.y += gravity
 
         checkInput(false)
+
+        animationHandler.update()
+        objectData.texturePath = animationHandler.getCurrentImage()
+
 
     function checkInput(boolean jump)
         let downKeys = owner.getDownKeys()
@@ -60,12 +72,17 @@ public class PlayerHero extends Entity
         let downKeys = owner.getDownKeys()
         if onGround and downKeys.left and not downKeys.right and vel.x < -2
             objectData.state = "lwalk"
+            animationHandler.changeAnimation(objectData.state)
         else if onGround and downKeys.right and not downKeys.left and vel.x > 2
             objectData.state = "walk"
+            animationHandler.changeAnimation(objectData.state)
         else if vel.x < -2
             objectData.state = "lstand"
+            animationHandler.changeAnimation(objectData.state)
         else if vel.x > 2
             objectData.state = "stand"
+            animationHandler.changeAnimation(objectData.state)
 
     ondestroy
         dummyUnit.remove()
+        destroy animationHandler

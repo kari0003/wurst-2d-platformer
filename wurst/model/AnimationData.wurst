@@ -1,0 +1,47 @@
+package AnimationData
+import LinkedList
+
+public class AnimationDefinition
+    string name
+    LinkedList<string> frames
+    var startFrame = 0
+    var endFrame = 0
+    var fps = 6
+
+    construct(string name, LinkedList<string> frames)
+        this.name = name
+        this.frames = frames.copy()
+        startFrame = 0
+        endFrame = frames.size() - 1
+
+public class AnimationData
+    AnimationDefinition data
+    var animationTime = 0.
+
+    construct (AnimationDefinition data)
+        this.data = data
+
+    function getName() returns string
+        return data.name
+
+    function getFrames() returns LinkedList<string>
+        return data.frames
+
+    function getFrameCount() returns int
+        return (animationTime * data.fps).floor()
+
+    function getCurrentFrame() returns string
+        return data.frames.get(getFrameCount())
+
+    function update(real delta)
+        animationTime += delta
+        let frames = data.endFrame - data.startFrame
+        if animationTime > frames / data.fps
+            animationTime = animationTime % (frames / data.fps)
+
+    function resetAnimation()
+        animationTime = 0.
+
+    function setFrame(int frameCount)
+        animationTime = (frameCount / data.fps)
+
