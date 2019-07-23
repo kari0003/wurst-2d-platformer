@@ -24,11 +24,15 @@ public class CrudeCollisionHandler implements CollisionHandler
             // moving to the right, if right corners are blocked, negate x vel
             if getTile(cornerRT + vec2(1,0)).pathing == Pathing.BLOCKED
                 or getTile(cornerRB + vec2(1,4)).pathing == Pathing.BLOCKED
+                or getTile(cornerRT + vec2(1,0)).pathing == Pathing.DEATH
+                or getTile(cornerRB + vec2(1,4)).pathing == Pathing.DEATH
                 entityVel.x = 0
         else if entityVel.x < 0
             // moving to the left, if left corners are blocked, negate x vel
             if getTile(cornerLT + vec2(-1,0)).pathing == Pathing.BLOCKED
                 or getTile(cornerLB + vec2(-1,4)).pathing == Pathing.BLOCKED
+                or getTile(cornerLT + vec2(-1,0)).pathing == Pathing.DEATH
+                or getTile(cornerLB + vec2(-1,4)).pathing == Pathing.DEATH
                 entityVel.x = 0
         if entityVel.y > 0
             // jumping up, if top corners are blocked, negate y vel
@@ -46,16 +50,17 @@ public class CrudeCollisionHandler implements CollisionHandler
         entity.setVel(entityVel)
 
         if entity instanceof PlayerHero
-            if (getTile(cornerLB + vec2(4, -2)).pathing == Pathing.DEATH
-                or getTile(cornerRB - vec2(4, -2)).pathing == Pathing.DEATH)
-                levelData.removeObject((entity castTo PlayerHero).objectData)
-                (entity castTo PlayerHero).owner.getData().hero = null
-                (entity castTo PlayerHero).terminate()
-            else
-                (entity castTo PlayerHero).onGround = (getTile(cornerLB + vec2(2, -1)).pathing == Pathing.BLOCKED
-                                                    and getTile(cornerLB + vec2(2, 1)).pathing == Pathing.FREE)
-                                                    or (getTile(cornerRB - vec2(2, 1)).pathing == Pathing.BLOCKED
-                                                    and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
+            if entityVel.y < 0
+                if (getTile(cornerLB + vec2(4, -(entityVel.y))).pathing == Pathing.DEATH
+                    or getTile(cornerRB + vec2(-4, -(entityVel.y))).pathing == Pathing.DEATH)
+                    levelData.removeObject((entity castTo PlayerHero).objectData)
+                    (entity castTo PlayerHero).owner.getData().hero = null
+                    (entity castTo PlayerHero).terminate()
+
+            (entity castTo PlayerHero).onGround = (getTile(cornerLB + vec2(2, -1)).pathing == Pathing.BLOCKED
+                                                and getTile(cornerLB + vec2(2, 1)).pathing == Pathing.FREE)
+                                                or (getTile(cornerRB - vec2(2, 1)).pathing == Pathing.BLOCKED
+                                                and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
 
 
     function getTile(vec3 pos) returns TileData
