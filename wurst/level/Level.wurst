@@ -96,8 +96,9 @@ init
     EventListener.add(EVENT_PLAYER_END_CINEMATIC) ->
         if currentLevel != null
             let data = GetTriggerPlayer().getData()
-            currentLevel.getData().removeObject(data.hero.objectData)
-            data.hero.terminate()
+            if data.hero != null
+                currentLevel.getData().removeObject(data.hero.objectData)
+                data.hero.terminate()
             let newHero = new PlayerHero(GetTriggerPlayer(), currentLevel.getData().getStartPosition())
             data.setHero(newHero)
             currentLevel.getData().addObject(newHero.objectData)
