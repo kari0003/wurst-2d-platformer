@@ -3,7 +3,7 @@ import CollisionModule
 import LevelData
 import Entity
 import PlayerHero
-import GameTimer
+import PlayerData
 
 
 public class CrudeCollisionHandler implements CollisionHandler
@@ -43,16 +43,20 @@ public class CrudeCollisionHandler implements CollisionHandler
                 or getTile(cornerRB - vec2(4, 0)).pathing == Pathing.BLOCKED
                 entityVel.y = 0
 
-        if entity instanceof PlayerHero
-            let oldG = (entity castTo PlayerHero).onGround
-            (entity castTo PlayerHero).onGround = (getTile(cornerLB + vec2(2, -1)).pathing == Pathing.BLOCKED
-                                                and getTile(cornerLB + vec2(2, 1)).pathing == Pathing.FREE)
-                                               or (getTile(cornerRB - vec2(2, 1)).pathing == Pathing.BLOCKED
-                                                and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
-
-            if oldG != (entity castTo PlayerHero).onGround
-
         entity.setVel(entityVel)
+
+        if entity instanceof PlayerHero
+            if (getTile(cornerLB + vec2(4, -2)).pathing == Pathing.DEATH
+                or getTile(cornerRB - vec2(4, -2)).pathing == Pathing.DEATH)
+                levelData.removeObject((entity castTo PlayerHero).objectData)
+                (entity castTo PlayerHero).owner.getData().hero = null
+                (entity castTo PlayerHero).terminate()
+            else
+                (entity castTo PlayerHero).onGround = (getTile(cornerLB + vec2(2, -1)).pathing == Pathing.BLOCKED
+                                                    and getTile(cornerLB + vec2(2, 1)).pathing == Pathing.FREE)
+                                                    or (getTile(cornerRB - vec2(2, 1)).pathing == Pathing.BLOCKED
+                                                    and getTile(cornerRB - vec2(2, -1)).pathing == Pathing.FREE)
+
 
     function getTile(vec3 pos) returns TileData
         let x = (pos.x / levelData.getTileSize()).round()

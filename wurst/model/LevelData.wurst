@@ -17,6 +17,7 @@ import HashList
 public enum Pathing
     FREE
     BLOCKED
+    DEATH
     WATER // TODO
 
 /** Row and column index of a tile in the 2d grid */
