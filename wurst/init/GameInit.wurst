@@ -3,22 +3,30 @@ import ClosureTimers
 import SimpleLevelLoader
 import Level_01
 import Level_02
-import EntityManagement
 import Level_03
+import Level_04
+import EntityManagement
+import Level_05
 
 init
     doAfter(.1) () ->
         hideOriginFrames(true)
         startEntityLoop()
 
+        let level05 = SimpleLevelLoader.load(LEVEL_05_DATA)
+
+        let level04 = SimpleLevelLoader.load(LEVEL_04_DATA)
+        level04.nextLevel = level05
+
         let level03 = SimpleLevelLoader.load(LEVEL_03_DATA)
+        level03.nextLevel = level04
 
         let level02 = SimpleLevelLoader.load(LEVEL_02_DATA)
         level02.nextLevel = level03
 
         let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
         level01.nextLevel = level02
-        level01.start()
+        level05.start()
 
 
         EnableOcclusion(false)

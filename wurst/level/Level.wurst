@@ -9,8 +9,6 @@ import CollisionModule
 import HashMap
 import Entity
 import Background
-import GameTimer
-import KeyUtils
 
 public Level currentLevel = null
 
@@ -31,17 +29,20 @@ public class Level extends Entity
         this.levelData = levelData
         this.renderer = renderer
         this.collision = collision
-        renderer.setLevelData(levelData)
-        collision.setLevelData(levelData)
         sleeps = false
         deactivate()
 
     function start()
         if started
             return
+
+        renderer.setLevelData(levelData)
+        collision.setLevelData(levelData)
         started = true
         currentLevel = this
         ALL_PLAYERS.forEach() p ->
+            if p.getData().hero != null
+                p.getData().hero.terminate()
             let hero = new PlayerHero(p, levelData.getStartPosition())
             p.getData().setHero(hero)
             backgrounds.push(new Background("bacground-foggy-forest.tga", vec2(0.6, 0.6), p))
@@ -71,8 +72,7 @@ public class Level extends Entity
                         if donePlayers >= ALL_PLAYERS.size()
                             finished = true
                             if nextLevel != null
-                                let delta = (getElapsedGameTime() * 100) % (ANIMATION_PERIOD * 100) / 50
-                                doAfter(delta) ->
+                                doAfter(0.5) ->
                                     nextLevel.start()
                                 terminate()
                                 currentLevel = null

@@ -4,9 +4,10 @@ dependencies:
 - https://github.com/wurstscript/wurstStdlib2
 - https://github.com/frotty/frentity
 buildMapData:
-  name: 'SCF006'
-  fileName: SCF6
+  name: '2D Search for bigfoot 0.14.4'
+  fileName: 2dSearchForBigFoot0.14.4
   author: Frotty & Kari
+
   players:
   - id: 0
     race: HUMAN

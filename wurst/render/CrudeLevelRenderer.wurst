@@ -3,8 +3,9 @@ import RenderModule
 import LevelData
 import HashList
 import LinkedList
-import GameTimer
 import HashMap
+import Execute
+import LinkedListModule
 
 /*
     Just create an image for each tile and object and then remove it again.
@@ -12,7 +13,10 @@ import HashMap
     Expect that images are sized exactly as their size, and add +2 as transparent margin
 */
 
+let tileMap = new IterableMap<int, Image>
+
 class Image
+    use LinkedListModule
     int texId
     image img
 
@@ -27,6 +31,8 @@ public class CrudeLevelRenderer implements LevelRenderer
     private let imagePool = new IterableMap<int, LinkedList<Image>>
     private let usedImages = new LinkedList<Image>
     private LevelData data = null
+    private var width = 0
+    private var height = 0
 
     private function renderImage(string texture, vec2 size, vec2 pos, colorA color)
         let texId = texture.getHash()
@@ -43,6 +49,15 @@ public class CrudeLevelRenderer implements LevelRenderer
 
     override function setLevelData(LevelData data)
         this.data = data
+        width = data.getWidth()
+        height = data.getHeight()
+        for i = 0 to width - 1
+            for j = 0 to height - 1
+                let tile = data.getTile(i, j)
+                if tile != null and tile.texturePath.isNotBlank()
+                    tileMap.put(i + width * j, new Image(
+                        createImage(tile.texturePath, vec2(data.getTileSize() * i, data.getTileSize() * j),
+                        data.getTileSize() + 2, data.getTileSize() + 2, ImageLayer.L3)..show(), -1))
 
     override function draw()
         let itr = usedImages.iterator()
@@ -50,13 +65,6 @@ public class CrudeLevelRenderer implements LevelRenderer
             img.img.hide()
             imagePool.get(img.texId).add(img)
             itr.remove()
-
-        for i = 0 to data.getWidth() - 1
-            for j = 0 to data.getHeight() - 1
-                let tile = data.getTile(i, j)
-                if tile != null and tile.texturePath.isNotBlank()
-                    renderImage(tile.texturePath, vec2(data.getTileSize(), data.getTileSize()), vec2(data.getTileSize() * i, data.getTileSize() * j), COLOR_WHITE)
-
 
         for gameObject in data.getObjects()
             renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, gameObject.color)
@@ -72,3 +80,10 @@ public class CrudeLevelRenderer implements LevelRenderer
             destroy imagePool.get(texId)
         destroy imagePool
 
+        execute() ->
+            for key in tileMap
+                destroy tileMap.get(key)
+
+            tileMap.flush()
+
+            Log.info("level flushed, images left: " + Image.size.toString())
