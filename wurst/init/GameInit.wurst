@@ -7,10 +7,22 @@ import Level_03
 import Level_04
 import EntityManagement
 import Level_05
+import SoundUtils
+
+let SOUND_QN = new SoundDefinition(Sounds.questNew, false)
 
 init
     doAfter(.1) () ->
         hideOriginFrames(true)
+        SOUND_QN.play()
+        printTimed("Bigfoot has been sighted nearby.", 10.)
+        printTimed("Go check it out!\n\n", 10.)
+        printTimed("Controls:", 10.)
+        printTimed("    - Arrow keys to move and jump", 10.)
+        printTimed("    - ESC key to respawn", 10.)
+
+
+    doAfter(5.) ->
         startEntityLoop()
 
         let level05 = SimpleLevelLoader.load(LEVEL_05_DATA)
