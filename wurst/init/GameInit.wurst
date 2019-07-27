@@ -38,7 +38,7 @@ init
 
         let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
         level01.nextLevel = level02
-        level05.start()
+        level01.start()
 
 
         EnableOcclusion(false)
