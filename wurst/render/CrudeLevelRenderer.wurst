@@ -65,6 +65,7 @@ public class CrudeLevelRenderer implements LevelRenderer
             img.img.hide()
             imagePool.get(img.texId).add(img)
             itr.remove()
+        itr.close()
 
         for gameObject in data.getObjects()
             renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, gameObject.color)
