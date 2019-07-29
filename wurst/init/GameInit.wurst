@@ -8,11 +8,16 @@ import Level_04
 import EntityManagement
 import Level_05
 import SoundUtils
+import Level_06
 
 let SOUND_QN = new SoundDefinition(Sounds.questNew, false)
 
+let OST = new SoundDefinition("bigfoot_ost.mp3", true)
+
 init
+
     doAfter(.1) () ->
+        OST.play()
         hideOriginFrames(true)
         SOUND_QN.play()
         printTimed("Bigfoot has been sighted nearby.", 10.)
@@ -25,7 +30,10 @@ init
     doAfter(5.) ->
         startEntityLoop()
 
+        let level06 = SimpleLevelLoader.load(LEVEL_06_DATA)
+
         let level05 = SimpleLevelLoader.load(LEVEL_05_DATA)
+        level05.nextLevel = level06
 
         let level04 = SimpleLevelLoader.load(LEVEL_04_DATA)
         level04.nextLevel = level05

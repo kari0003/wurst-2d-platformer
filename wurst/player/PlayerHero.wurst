@@ -20,7 +20,7 @@ public class PlayerHero extends Entity
         super(owner, pos)
         sleeps = false
         objectData.texturePath = Textures.icon_folder_up
-        objectData.size = vec2(72, 72)
+        objectData.size = vec2(70, 72)
         objectData.color = owner.getColor().toColor().withAlpha(225)
 
         animationHandler = new AnimationHandler(objectData.texturePath, STAND_ANIM.name)
