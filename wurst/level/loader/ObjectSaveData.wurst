@@ -1,0 +1,14 @@
+package ObjectSaveData
+import ObjectData
+
+/** Represents a generic object on the Level to be loaded */
+abstract public class ObjectSaveData
+    vec2 pos
+    vec2 size
+
+    construct(vec2 pos, vec2 size)
+        this.pos = pos
+        this.size = size
+
+    // Create game object based on data
+    abstract function load() returns ObjectData

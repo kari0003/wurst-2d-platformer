@@ -1,0 +1,69 @@
+package LevelLoader
+import LinkedList
+import Level
+import LevelData
+import CrudeLevelRenderer
+import CrudeCollisionHandler
+import LevelSaveData
+import ObjectSaveData
+
+/** Converts a tile id into a TileData object */
+public function int.toTileData() returns TileData
+    switch this
+        case 0
+            return new TileData()
+        case 1
+            return new TileData(Pathing.BLOCKED, "grass1.tga")
+        case 2
+            return new TileData(Pathing.BLOCKED, "grass_end_right.tga")
+        case 3
+            return new TileData(Pathing.BLOCKED, "cliff_edge_right.tga")
+        case 4
+            return new TileData(Pathing.BLOCKED, "grass1.tga")
+        case 5
+            return new TileData(Pathing.BLOCKED, "grassmdirt.tga")
+        case 6
+            return new TileData(Pathing.BLOCKED, "dirtmgrass.tga")
+        case 7
+            return new TileData(Pathing.BLOCKED, "dirt.tga")
+        case 8
+            return new TileData(Pathing.BLOCKED, "grass_end_left.tga")
+        case 9
+            return new TileData(Pathing.DEATH, "spike.tga")
+    return null
+
+public class LevelLoader
+
+    /** Loads the save data and returns a Level which is ready to start */
+    static function load(LevelSaveData levelSaveData) returns Level
+        let data = new LevelData(levelSaveData.width, levelSaveData.height)
+        var x = 0
+        var y = levelSaveData.height - 1
+
+        // Since the list starts at the top, we need to inversly read the input
+        for tileId from levelSaveData.tileList.staticItr()
+            if tileId < 0
+                switch tileId
+                    case -1
+                        data.setStartingTile(x, y)
+                        data.setTile(x, y, new TileData())
+                    case -2
+                        data.setFinishTile(x, y)
+                        data.setTile(x, y, new TileData(Pathing.FREE, "finish.tga"))
+
+            else
+                data.setTile(x, y, tileId.toTileData())
+            x++
+            if x == levelSaveData.width
+                x = 0
+                y--
+
+        // Create objects
+        for objectSaveData in levelSaveData.objectList
+            data.addObject(objectSaveData.load())
+
+        // Different levels could have different renderers
+        let renderer = new CrudeLevelRenderer()
+        let coll = new CrudeCollisionHandler()
+        let level = new Level(data, renderer, coll)
+        return level

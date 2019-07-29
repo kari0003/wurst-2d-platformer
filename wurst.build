@@ -4,8 +4,8 @@ dependencies:
 - https://github.com/wurstscript/wurstStdlib2
 - https://github.com/frotty/frentity
 buildMapData:
-  name: '2D Search for bigfoot 0.14.4'
-  fileName: 2dSearchForBigFoot0.14.4
+  name: '2D Search for bigfoot 0.15.1'
+  fileName: 2dSearchForBigFoot0.15.1
   author: Frotty & Kari
 
   players:
@@ -46,7 +46,7 @@ buildMapData:
     race: HUMAN
     fixedStartLoc: true
   forces:
-  - name: Yiss
+  - name: Small Feets
     playerIds:
     - 0
     - 1
@@ -59,6 +59,6 @@ buildMapData:
     - 8
     - 9
     - 10
-  - name: Aww
+  - name: Big Feet
     playerIds:
     - 11

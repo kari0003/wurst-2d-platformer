@@ -1,6 +1,7 @@
 package GameInit
 import ClosureTimers
 import SimpleLevelLoader
+import LevelLoader
 import Level_01
 import Level_02
 import Level_03
@@ -36,7 +37,7 @@ init
         let level02 = SimpleLevelLoader.load(LEVEL_02_DATA)
         level02.nextLevel = level03
 
-        let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
+        let level01 = LevelLoader.load(LEVEL_01_DATA)
         level01.nextLevel = level02
         level01.start()
 

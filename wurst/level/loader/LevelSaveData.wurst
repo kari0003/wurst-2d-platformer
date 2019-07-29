@@ -1,0 +1,22 @@
+package LevelSaveData
+import LinkedList
+import ObjectSaveData
+
+/** Input Wrapper */
+public class LevelSaveData
+    LinkedList<int> tileList
+    int width
+    int height
+    LinkedList<ObjectSaveData> objectList
+
+    construct(LinkedList<int> tiles, int width, int height, LinkedList<ObjectSaveData> objects)
+        this.tileList = tiles
+        this.width = width
+        this.height = height
+        this.objectList = objects
+
+    construct(LinkedList<int> tiles, int width, int height)
+        this.tileList = tiles
+        this.width = width
+        this.height = height
+        this.objectList = new LinkedList<ObjectSaveData>()
