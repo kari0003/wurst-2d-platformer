@@ -30,6 +30,7 @@ class Image
 public class CrudeLevelRenderer implements LevelRenderer
     private let imagePool = new IterableMap<int, LinkedList<Image>>
     private let usedImages = new LinkedList<Image>
+    private let dirtyTiles = new LinkedList<TileData>
     private LevelData data = null
     private var width = 0
     private var height = 0
@@ -67,8 +68,22 @@ public class CrudeLevelRenderer implements LevelRenderer
             itr.remove()
         itr.close()
 
+        let itr2 = dirtyTiles.iterator()
+        for img from itr2
+            let tmap = tileMap.get(img.tilePos.x + width * img.tilePos.y)
+            if tmap != null
+                destroy tmap
+            tileMap.put(img.tilePos.x + width * img.tilePos.y, new Image(
+                        createImage(img.texturePath, vec2(data.getTileSize() * img.tilePos.x, data.getTileSize() * img.tilePos.y),
+                        data.getTileSize() + 2, data.getTileSize() + 2, ImageLayer.L3)..show(), -1))
+            itr2.remove()
+        itr2.close()
+
         for gameObject in data.getObjects()
             renderImage(gameObject.texturePath, gameObject.size, gameObject.pos, gameObject.color)
+
+    override function addDirtyTile(TileData tile)
+        dirtyTiles.add(tile)
 
     ondestroy
         for img from usedImages.staticItr()

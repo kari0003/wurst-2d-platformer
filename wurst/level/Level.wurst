@@ -17,10 +17,10 @@ public Level currentLevel = null
 
 public class Level extends Entity
     private LevelData levelData
-    private LevelRenderer renderer
     private CollisionHandler collision
     private let entityMap = new HashMap<ObjectData, Entity>
     private let backgrounds = new LinkedList<Background>
+    LevelRenderer renderer
 
     Level nextLevel = null
     var finished = false

@@ -4,6 +4,7 @@ import Level
 import LevelData
 import CrudeLevelRenderer
 import CrudeCollisionHandler
+import DoorTile
 
 /*
     Loads a level from a 'SimpleLevelSaveData' input.
@@ -20,7 +21,9 @@ public function int.toTileData() returns TileData
         case 1
             return new TileData(Pathing.BLOCKED, "grass1.tga")
         case 2
-            return new TileData(Pathing.BLOCKED, "grass_end_right.tga")
+            let td = new TileData(Pathing.BLOCKED, "grass_end_right.tga")
+            new DoorTile(td)
+            return td
         case 3
             return new TileData(Pathing.BLOCKED, "cliff_edge_right.tga")
         case 4

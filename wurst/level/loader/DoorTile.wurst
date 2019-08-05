@@ -1,0 +1,37 @@
+package DoorTile
+import LevelData
+import Entity
+import AnimationHandler
+import AnimationData
+import ClosureTimers
+import Level
+
+let CLOSED_DEF = new AnimationDefinition("closed", asList("door/door_closed.tga") )
+let CHANGE_DEF = new AnimationDefinition("change", asList("door/door_anim_1.tga", "door/door_anim_2.tga", "door/door_anim_3.tga", "door/door_anim_4.tga") )
+let OPEN_DEF = new AnimationDefinition("open", asList("door/door_open.tga") )
+
+public class DoorTile extends Entity
+    TileData data
+
+    AnimationHandler animHandler
+
+    construct(TileData data)
+        this.data = data
+        sleeps = false
+
+        animHandler = new AnimationHandler("door/door_closed.tga", "closed")
+        animHandler.addAnimation(CLOSED_DEF)
+        animHandler.addAnimation(CHANGE_DEF)
+        animHandler.addAnimation(OPEN_DEF)
+
+    override function update()
+        animHandler.update()
+        if (animHandler.getCurrentImage() != data.texturePath)
+            data.texturePath = animHandler.getCurrentImage()
+            Log.info("update door")
+            currentLevel.renderer.addDirtyTile(data)
+
+    function open()
+        animHandler.changeAnimation("change")
+        doAfter(0.5) ->
+            animHandler.changeAnimation("open")
