@@ -18,7 +18,7 @@ public class GameCamera extends Entity
         owner.setCameraTargetControllerNoZ(target, ZERO2, true)
 
     function getPos() returns vec2
-        return target.getPos()
+        return not target.isAlive() ? vec2(GetCameraEyePositionX(), GetCameraEyePositionY()) : target.getPos()
 
     override function update()
         owner.cameraSetupApply(false, gg_cam_Camera_001, 0.)

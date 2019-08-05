@@ -1,0 +1,32 @@
+package Level_06
+import LinkedList
+import LevelSaveData
+
+let WIDTH = 13
+let HEIGHT = 12
+
+let TILE_MAP = [
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1,
+    1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+    1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1,
+    1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1,
+    1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+]
+
+let tileList = new LinkedList<int>
+
+init
+    initMap()
+
+@compiletime function initMap()
+    for i = 0 to TILE_MAP.length - 1
+        tileList.add(TILE_MAP[i])
+
+public constant LEVEL_06_DATA = new LevelSaveData(tileList, WIDTH, HEIGHT)

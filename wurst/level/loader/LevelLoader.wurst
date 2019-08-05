@@ -6,6 +6,15 @@ import CrudeLevelRenderer
 import CrudeCollisionHandler
 import LevelSaveData
 import ObjectSaveData
+import DoorTile
+
+/*
+    Loads a level from a 'LevelSaveData' input.
+    The input contains a list of tiles, the width, height and the starting tile.
+    The input also contains a list of objects that should be loaded to the map other than the players
+    See Level_01.wurst for a usage example.
+    Future level loaders could load from programmatically serialized save data.
+*/
 
 /** Converts a tile id into a TileData object */
 public function int.toTileData() returns TileData
@@ -15,7 +24,9 @@ public function int.toTileData() returns TileData
         case 1
             return new TileData(Pathing.BLOCKED, "grass1.tga")
         case 2
-            return new TileData(Pathing.BLOCKED, "grass_end_right.tga")
+            let td = new TileData(Pathing.BLOCKED, "grass_end_right.tga")
+            new DoorTile(td)
+            return td
         case 3
             return new TileData(Pathing.BLOCKED, "cliff_edge_right.tga")
         case 4

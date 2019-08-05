@@ -9,9 +9,12 @@ import Level_05
 import Level_Playground
 import EntityManagement
 import SoundUtils
+import Level_06
 
 let SOUND_QN = new SoundDefinition(Sounds.questNew, false)
 var debug = false
+
+let OST = new SoundDefinition("bigfoot_ost.mp3", true)
 
 init
 
@@ -22,6 +25,7 @@ init
         printTimed("|cffff3333Debug mode activated!", 20.)
 
     doAfter(.1) () ->
+        OST.play()
         hideOriginFrames(true)
         SOUND_QN.play()
         printTimed("|cffffcc00Bigfoot has been sighted nearby.|r", 10.)
@@ -34,7 +38,10 @@ init
     doAfter(5.) ->
         startEntityLoop()
 
+        let level06 = LevelLoader.load(LEVEL_06_DATA)
+
         let level05 = LevelLoader.load(LEVEL_05_DATA)
+        level05.nextLevel = level06
 
         let level04 = LevelLoader.load(LEVEL_04_DATA)
         level04.nextLevel = level05

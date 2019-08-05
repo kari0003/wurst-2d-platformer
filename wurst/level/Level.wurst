@@ -8,16 +8,19 @@ import ClosureTimers
 import CollisionModule
 import HashMap
 import Entity
+import SoundUtils
 import Background
+
+let FINISH_SOUND = new SoundDefinition(Sounds.hint, false)
 
 public Level currentLevel = null
 
 public class Level extends Entity
     private LevelData levelData
-    private LevelRenderer renderer
     private CollisionHandler collision
     private let entityMap = new HashMap<ObjectData, Entity>
     private let backgrounds = new LinkedList<Background>
+    LevelRenderer renderer
 
     Level nextLevel = null
     var finished = false
@@ -70,6 +73,8 @@ public class Level extends Entity
                         levelData.removeObject(p.getData().hero.objectData)
                         p.getData().hero.terminate()
                         p.getData().hero = null
+                        printTimed(p.getNameColored() + " finished!", 10.)
+                        FINISH_SOUND.play()
                         donePlayers++
                         if donePlayers >= ALL_PLAYERS.size()
                             finished = true

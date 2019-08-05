@@ -28,7 +28,7 @@ public class AnimationData
         return data.frames
 
     function getFrameCount() returns int
-        return (animationTime * data.fps).floor()
+        return (animationTime * data.fps).round()
 
     function getCurrentFrame() returns string
         return data.frames.get(getFrameCount())
