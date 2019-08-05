@@ -56,7 +56,9 @@ public class Level extends Entity
     override function update()
         if not finished
             for obj in levelData.getObjects()
-                collision.apply(obj, entityMap.get(obj))
+                let ent = entityMap.get(obj)
+                if ent != null
+                    collision.apply(obj, ent)
 
             for bg in backgrounds
                 bg.render()

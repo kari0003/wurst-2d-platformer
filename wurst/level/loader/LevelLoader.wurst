@@ -1,14 +1,17 @@
-package SimpleLevelLoader
+package LevelLoader
 import LinkedList
 import Level
 import LevelData
 import CrudeLevelRenderer
 import CrudeCollisionHandler
+import LevelSaveData
+import ObjectSaveData
 import DoorTile
 
 /*
-    Loads a level from a 'SimpleLevelSaveData' input.
+    Loads a level from a 'LevelSaveData' input.
     The input contains a list of tiles, the width, height and the starting tile.
+    The input also contains a list of objects that should be loaded to the map other than the players
     See Level_01.wurst for a usage example.
     Future level loaders could load from programmatically serialized save data.
 */
@@ -40,21 +43,10 @@ public function int.toTileData() returns TileData
             return new TileData(Pathing.DEATH, "spike.tga")
     return null
 
-/** Input Wrapper */
-public class SimpleLevelSaveData
-    LinkedList<int> tileList
-    int width
-    int height
-
-    construct(LinkedList<int> tiles, int width, int height)
-        this.tileList = tiles
-        this.width = width
-        this.height = height
-
-public class SimpleLevelLoader
+public class LevelLoader
 
     /** Loads the save data and returns a Level which is ready to start */
-    static function load(SimpleLevelSaveData levelSaveData) returns Level
+    static function load(LevelSaveData levelSaveData) returns Level
         let data = new LevelData(levelSaveData.width, levelSaveData.height)
         var x = 0
         var y = levelSaveData.height - 1
@@ -77,10 +69,12 @@ public class SimpleLevelLoader
                 x = 0
                 y--
 
+        // Create objects
+        for objectSaveData in levelSaveData.objectList
+            data.addObject(objectSaveData.load())
+
         // Different levels could have different renderers
         let renderer = new CrudeLevelRenderer()
         let coll = new CrudeCollisionHandler()
         let level = new Level(data, renderer, coll)
         return level
-
-

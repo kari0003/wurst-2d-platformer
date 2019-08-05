@@ -1,26 +1,34 @@
 package GameInit
 import ClosureTimers
-import SimpleLevelLoader
+import LevelLoader
 import Level_01
 import Level_02
 import Level_03
 import Level_04
-import EntityManagement
 import Level_05
+import Level_Playground
+import EntityManagement
 import SoundUtils
 import Level_06
 
 let SOUND_QN = new SoundDefinition(Sounds.questNew, false)
+var debug = false
 
 let OST = new SoundDefinition("bigfoot_ost.mp3", true)
 
 init
 
+    let debugTrigger = CreateTrigger()
+    debugTrigger.registerPlayerChatEvent(Player(0), "-d", true)
+    debugTrigger.addAction() ->
+        debug = true
+        printTimed("|cffff3333Debug mode activated!", 20.)
+
     doAfter(.1) () ->
         OST.play()
         hideOriginFrames(true)
         SOUND_QN.play()
-        printTimed("Bigfoot has been sighted nearby.", 10.)
+        printTimed("|cffffcc00Bigfoot has been sighted nearby.|r", 10.)
         printTimed("Go check it out!\n\n", 10.)
         printTimed("Controls:", 10.)
         printTimed("    - Arrow keys to move and jump", 10.)
@@ -30,24 +38,29 @@ init
     doAfter(5.) ->
         startEntityLoop()
 
-        let level06 = SimpleLevelLoader.load(LEVEL_06_DATA)
+        let level06 = LevelLoader.load(LEVEL_06_DATA)
 
-        let level05 = SimpleLevelLoader.load(LEVEL_05_DATA)
+        let level05 = LevelLoader.load(LEVEL_05_DATA)
         level05.nextLevel = level06
 
-        let level04 = SimpleLevelLoader.load(LEVEL_04_DATA)
+        let level04 = LevelLoader.load(LEVEL_04_DATA)
         level04.nextLevel = level05
 
-        let level03 = SimpleLevelLoader.load(LEVEL_03_DATA)
+        let level03 = LevelLoader.load(LEVEL_03_DATA)
         level03.nextLevel = level04
 
-        let level02 = SimpleLevelLoader.load(LEVEL_02_DATA)
+        let level02 = LevelLoader.load(LEVEL_02_DATA)
         level02.nextLevel = level03
 
-        let level01 = SimpleLevelLoader.load(LEVEL_01_DATA)
+        let level01 = LevelLoader.load(LEVEL_01_DATA)
         level01.nextLevel = level02
-        level01.start()
 
+        if not debug
+            level01.start()
+        else
+            let levelDebug = LevelLoader.load(LEVEL_PLAYGROUND_DATA)
+            levelDebug.nextLevel = level01
+            levelDebug.start()
 
         EnableOcclusion(false)
         createVision(players[0], playableMapRect, false)

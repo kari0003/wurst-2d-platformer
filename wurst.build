@@ -4,6 +4,6 @@ dependencies:
 - https://github.com/wurstscript/wurstStdlib2
 - https://github.com/frotty/frentity
 buildMapData:
-  name: 2D Search for bigfoot 0.15.0
-  fileName: 2dSearchForBigFoot0.15.0
+  name: '2D Search for bigfoot 0.15.1'
+  fileName: 2dSearchForBigFoot0.15.1
   author: Frotty & Kari

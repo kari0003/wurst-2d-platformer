@@ -1,0 +1,19 @@
+package LogObjectSaveData
+import ObjectData
+import ObjectSaveData
+
+public tuple logSaveData(vec2 pos, vec2 size, int durability)
+
+public class LogObjectSaveData extends ObjectSaveData
+    int durability
+
+    construct(logSaveData data)
+        super(data.pos, data.size)
+        this.durability = data.durability
+
+    override function load() returns ObjectData
+        let log = new ObjectData()
+        log.size = this.size
+        log.pos = this.pos
+        log.texturePath = "therock.tga"
+        return log
