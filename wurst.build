@@ -46,7 +46,7 @@ buildMapData:
     race: HUMAN
     fixedStartLoc: true
   forces:
-  - name: Small Feets
+  - name: Small Feet
     playerIds:
     - 0
     - 1
