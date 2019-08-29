@@ -24,14 +24,17 @@ public class DoorTile extends Entity
         animHandler.addAnimation(CHANGE_DEF)
         animHandler.addAnimation(OPEN_DEF)
 
+        doAfter(5.) () ->
+            open()
+
     override function update()
         animHandler.update()
         if (animHandler.getCurrentImage() != data.texturePath)
             data.texturePath = animHandler.getCurrentImage()
-            Log.info("update door")
             currentLevel.renderer.addDirtyTile(data)
 
     function open()
         animHandler.changeAnimation("change")
         doAfter(0.5) ->
             animHandler.changeAnimation("open")
+            data.pathing = Pathing.FREE

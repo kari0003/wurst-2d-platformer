@@ -28,6 +28,7 @@ public class TileData
     var tilePos = tilePos(0, 0)
     var pathing = Pathing.FREE
     var texturePath = ""
+    var color = COLOR_WHITE
 
     construct()
 
