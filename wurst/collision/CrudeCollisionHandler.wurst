@@ -51,8 +51,8 @@ public class CrudeCollisionHandler implements CollisionHandler
 
         if entity instanceof PlayerHero
             if entityVel.y < 0
-                if (getTile(cornerLB + vec2(4, -(entityVel.y))).pathing == Pathing.DEATH
-                    or getTile(cornerRB + vec2(-4, -(entityVel.y))).pathing == Pathing.DEATH)
+                if (getTile(cornerLB + vec2(6, 0)).pathing == Pathing.DEATH
+                    or getTile(cornerRB + vec2(-6, 0)).pathing == Pathing.DEATH)
                     levelData.removeObject((entity castTo PlayerHero).objectData)
                     (entity castTo PlayerHero).owner.getData().hero = null
                     (entity castTo PlayerHero).terminate()
